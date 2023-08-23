@@ -4,8 +4,9 @@ A version of [Carrefour project](https://github.com/moosetechnology/Carrefour) f
 
 To load execute in a Pharo Playground:
 ```st
-
-FASTFortranCamfortImporter new getFASTFor: '      SUBROUTINE RANK( A, B)
-      end
- '.
+Metacello new
+    baseline: 'CarrefourFortran';
+    repository: 'github://NicolasAnquetil/Carrefour-Fortran';
+    onWarningLog;
+    load
 ```
