@@ -43,9 +43,9 @@ BaselineOfCarrefourFortran >> definePackages: spec [
 		repository: 'https://github.com/NicolasAnquetil/Carrefour-Fortran';
 		package: 'Carrefour-Fortran-Model'
 			with: [ spec requires: #('FamixFortran' 'FASTFortran') ];
-		package: 'Carrefour-Model-Generator'
+		package: 'Carrefour-Fortran-Model-Generator'
 			with: [ spec requires: #('FASTFortran' 'FamixFortran') ] ;
-		package: 'Carrefour-Model'
+		package: 'Carrefour-Fortran'
 			with: [ spec requires: #('Carrefour-Fortran-Model') ]
 
 ]
