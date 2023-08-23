@@ -22,7 +22,7 @@ BaselineOfCarrefourFortran >> defineDependencies: spec [
 		baseline: 'FASTFortran'
 		with: [ spec
 				loads: #('all');
-				repository: 'github://moosetechnology/FAST-Fortran' ] ;
+				repository: 'github://moosetechnology/FAST-Fortran/tree/carrefour' ] ;
 
 		baseline: 'FamixFortran'
 		with: [ spec
