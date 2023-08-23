@@ -32,15 +32,20 @@ BaselineOfCarrefourFortran >> defineDependencies: spec [
 
 { #category : #baselines }
 BaselineOfCarrefourFortran >> defineGroups: spec [
-	spec group: 'generator' with: #('Carrefour-Fortran-Model-Generator')
+	spec
+		group: 'core' with: #('Carrefour-Fortran-Model' 'Carrefour-Fortran');
+		group: 'default' with: #('core')
 ]
 
 { #category : #baselines }
 BaselineOfCarrefourFortran >> definePackages: spec [
 	spec
-		repository: 'https://github.com/moosetechnology/Carrefour-Fortran';
-		package: 'Carrefour-Fortran-Model' with: [ spec requires: #('FamixFortran' 'FASTFortran') ];
+		repository: 'https://github.com/NicolasAnquetil/Carrefour-Fortran';
+		package: 'Carrefour-Fortran-Model'
+			with: [ spec requires: #('FamixFortran' 'FASTFortran') ];
 		package: 'Carrefour-Model-Generator'
-			with: [ spec requires: #('FASTFortran' 'FamixFortran') ]
+			with: [ spec requires: #('FASTFortran' 'FamixFortran') ] ;
+		package: 'Carrefour-Model'
+			with: [ spec requires: #('Carrefour-Fortran-Model') ]
 
 ]
