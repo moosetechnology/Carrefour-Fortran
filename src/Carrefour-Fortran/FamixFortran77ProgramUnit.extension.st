@@ -2,6 +2,6 @@ Extension { #name : #FamixFortran77ProgramUnit }
 
 { #category : #'*Carrefour-Fortran' }
 FamixFortran77ProgramUnit >> getFASTModel [
-	^FASTFortranCamfortImporter new
+	^	FortranProjectImporter new
 		getFASTFor: self sourceAnchor sourceText
 ]
