@@ -7,6 +7,6 @@ To load execute in a Pharo Playground:
 Metacello new
     baseline: 'CarrefourFortran';
     repository: 'github://NicolasAnquetil/Carrefour-Fortran';
-    onWarningLog;
+    onConflict: [ :ex | ex allow ];
     load
 ```
