@@ -2,10 +2,10 @@ Extension { #name : #FamixFortran77ProgramUnit }
 
 { #category : #'*Carrefour-Fortran-Model-accessing' }
 FamixFortran77ProgramUnit >> fast [
-	"Relation named: #fast type: #FASTFortranProgramUnit opposite: #famixPU"
+	"Relation named: #fast type: #FASTFortranEntity opposite: #famix"
 
 	<generated>
-	<FMProperty: #fast type: #FASTFortranProgramUnit opposite: #famixPU>
+	<FMProperty: #fast type: #FASTFortranEntity opposite: #famix>
 	<package: #'Carrefour-Fortran-Model'>
 	^ self attributeAt: #fast ifAbsent: [ nil ]
 ]
@@ -18,8 +18,8 @@ FamixFortran77ProgramUnit >> fast: anObject [
 	anObject ifNil: [ | otherSide |
 		otherSide :=  self fast.
 		self attributeAt: #fast put: anObject.
-		otherSide famixPU: nil ]
+		otherSide famix: nil ]
 	ifNotNil: [ 
 		self attributeAt: #fast put: anObject.
-		anObject famixPU: self ]
+		anObject famix: self ]
 ]
