@@ -20,6 +20,16 @@ CRFFBindingTest >> createFASTModel: jsonSource [
 ]
 
 { #category : #running }
+CRFFBindingTest >> createFASTModel: jsonSource fromFortranSource: fortranCode [
+
+	| visitor |
+	visitor := FASTFortranJsonVisitor new.
+	visitor initLineSizes: fortranCode.
+	visitor visitProgramFile: (NeoJSONReader fromString: jsonSource).
+	fastModel := visitor model
+]
+
+{ #category : #running }
 CRFFBindingTest >> createFamixModel: jsonSource [
 
 	| iastModel visitor |
@@ -32,21 +42,12 @@ CRFFBindingTest >> createFamixModel: jsonSource [
 ]
 
 { #category : #running }
-CRFFBindingTest >> createModels: jsonSource [
-	
-	self createFamixModel: jsonSource.
-	self createFASTModel: jsonSource.
-]
-
-{ #category : #running }
 CRFFBindingTest >> createModels: jsonSource forCode: fortranCode [
 	"Ugly to have to pass both fortran AND json code
 	 But avoids having to call external parser"
 
-	'./fortran77.f' asFileReference writeStreamDo: [ :st | st << fortranCode ].
-
 	self createFamixModel: jsonSource.
-	self createFASTModel: jsonSource.
+	self createFASTModel: jsonSource fromFortranSource: fortranCode.
 ]
 
 { #category : #tests }
@@ -63,8 +64,33 @@ CRFFBindingTest >> testEmptyFunctionWithArguments [
 
 	self assert: (famixModel allWithType: FamixFortran77Parameter) size equals: 2.
 	(famixModel allWithType: FamixFortran77Parameter) do: [ :fmx |
-		self assert: fmx fast class equals: FASTFortranScalarVariable.
-		self assert: fmx name equals: fmx fast name
+		self assert: fmx fastDeclaration class equals: FASTFortranScalarVariable.
+		self assert: fmx fastDeclaration name equals: fmx name
+	].
+
+
+]
+
+{ #category : #tests }
+CRFFBindingTest >> testVariableDeclarationReal [
+
+	| entities |
+	self
+		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:12)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(2:12)-(2:12)","type":"scalar","variable":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":"c","tag":"variable"}}}],"span":"(2:12)-(2:12)"},"span":"(2:7)-(2:12)","tag":"declaration","type":{"anno":[],"base_type":"real","selector":null,"span":"(2:7)-(2:10)"}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'
+		forCode:
+'      program main
+      real c
+      end
+'.
+
+	(famixModel entityNamed: 'main') bindFastModel: fastModel.
+
+	entities := famixModel allWithType: FamixFortran77Variable.
+
+	self assert: entities size equals: 1.
+	entities do: [ :fmx |
+		self assert: fmx fastDeclaration class equals: FASTFortranScalarVariable.
+		self assert: fmx fastDeclaration name equals: fmx name
 	].
 
 

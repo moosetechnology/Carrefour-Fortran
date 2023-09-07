@@ -19,7 +19,7 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 CRFFortranProgramUnitBinderVisitor >> ensureFASTMetaModel: aFASTEntity [
 	^(aFASTEntity class = FASTFortranModel)
 		ifFalse: [ aFASTEntity mooseModel: FASTFortranModel new ].
@@ -37,10 +37,23 @@ CRFFortranProgramUnitBinderVisitor >> famixEntity: anObject [
 	famixEntity := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 CRFFortranProgramUnitBinderVisitor >> locate: aFamixClass named: aName [
 	^(famixEntity allToScope: aFamixClass)
 	select: [ :each |each name = aName ]
+]
+
+{ #category : #'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDeclarationStatement: aFASTFortranDeclarationStatement [
+
+	aFASTFortranDeclarationStatement declarators
+		do: [ :decl |
+			(self locate: FamixFortran77Variable named: decl name)
+				ifNotEmpty: [ :famixVars |
+					self assert: (famixVars size = 1).
+					famixVars anyOne fastDeclaration: decl ]
+		].
+		
 ]
 
 { #category : #'visiting - programUnits' }
@@ -48,5 +61,5 @@ CRFFortranProgramUnitBinderVisitor >> visitParameter: aFASTFortranScalarVariable
 	(self locate: FamixFortran77Parameter named: aFASTFortranScalarVariable name)
 		ifNotEmpty: [ :famixParameters |
 			self assert: (famixParameters size = 1).
-			famixParameters anyOne fast: aFASTFortranScalarVariable ]
+			famixParameters anyOne fastDeclaration: aFASTFortranScalarVariable ]
 ]
