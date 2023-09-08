@@ -61,5 +61,5 @@ CRFFortranProgramUnitBinderVisitor >> visitParameter: aFASTFortranScalarVariable
 	(self locate: FamixFortran77Parameter named: aFASTFortranScalarVariable name)
 		ifNotEmpty: [ :famixParameters |
 			self assert: (famixParameters size = 1).
-			famixParameters anyOne fastDeclaration: aFASTFortranScalarVariable ]
+			famixParameters anyOne fastParameter: aFASTFortranScalarVariable ]
 ]
