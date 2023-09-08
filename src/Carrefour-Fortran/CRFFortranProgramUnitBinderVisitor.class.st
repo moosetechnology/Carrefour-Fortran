@@ -45,13 +45,15 @@ CRFFortranProgramUnitBinderVisitor >> locate: aFamixClass named: aName [
 
 { #category : #'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDeclarationStatement: aFASTFortranDeclarationStatement [
+	"A declarationStatement can be for a local variable or a Parameter"
 
 	aFASTFortranDeclarationStatement declarators
-		do: [ :decl |
+		do: [ :decl || famix |
 			(self locate: FamixFortran77Variable named: decl name)
-				ifNotEmpty: [ :famixVars |
-					self assert: (famixVars size = 1).
-					famixVars anyOne fastDeclaration: decl ]
+				ifNotEmpty: [ :vars | famix := vars ]
+				ifEmpty: [ famix := self locate: FamixFortran77Parameter named: decl name ].
+			self assert: (famix size = 1).
+			famix anyOne fastDeclaration: decl
 		].
 		
 ]
