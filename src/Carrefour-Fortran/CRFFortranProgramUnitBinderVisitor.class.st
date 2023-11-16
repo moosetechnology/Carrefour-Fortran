@@ -13,8 +13,8 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 	self famixEntity: aFamixEntity.
 	fastModel metamodel: CRFFModel metamodel.
 
-	(fastModel allWithSubTypesOf: FASTFortranProgramUnit)
-		select: [ :entity | entity parentNode isNil ]
+	(OrderedCollection withAll: (fastModel allWithSubTypesOf: FASTFortranProgramUnit))
+		select: [ :entity | entity parents isEmpty ]
 		thenDo: [ :rootEntity | self accept: rootEntity ].
 
 ]
@@ -49,9 +49,9 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDeclarationStatement: aFAS
 
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
-			(self locate: FamixFortran77Variable named: decl name)
+			(self locate: FamixF77Variable named: decl name)
 				ifNotEmpty: [ :vars | famix := vars ]
-				ifEmpty: [ famix := self locate: FamixFortran77Parameter named: decl name ].
+				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl name ].
 			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
@@ -60,7 +60,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDeclarationStatement: aFAS
 
 { #category : #'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitParameter: aFASTFortranScalarVariable [
-	(self locate: FamixFortran77Parameter named: aFASTFortranScalarVariable name)
+	(self locate: FamixF77Parameter named: aFASTFortranScalarVariable name)
 		ifNotEmpty: [ :famixParameters |
 			self assert: (famixParameters size = 1).
 			famixParameters anyOne fastParameter: aFASTFortranScalarVariable ]

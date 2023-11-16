@@ -2,11 +2,11 @@ Extension { #name : #FASTFortranEntity }
 
 { #category : #'*Carrefour-Fortran-Model-accessing' }
 FASTFortranEntity >> famix [
-	"Relation named: #famix type: #FamixFortran77ProgramUnit opposite: #fast"
+	"Relation named: #famix type: #FamixF77ProgramUnit opposite: #fast"
 
 	<generated>
 	<derived>
-	<FMProperty: #famix type: #FamixFortran77ProgramUnit opposite: #fast>
+	<FMProperty: #famix type: #FamixF77ProgramUnit opposite: #fast>
 	<package: #'Carrefour-Fortran-Model'>
 	^ self attributeAt: #famix ifAbsent: [ nil ]
 ]

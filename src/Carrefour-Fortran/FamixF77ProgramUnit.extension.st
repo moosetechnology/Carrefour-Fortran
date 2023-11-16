@@ -1,7 +1,7 @@
-Extension { #name : #FamixFortran77ProgramUnit }
+Extension { #name : #FamixF77ProgramUnit }
 
 { #category : #'*Carrefour-Fortran' }
-FamixFortran77ProgramUnit >> bindFASTModel [
+FamixF77ProgramUnit >> bindFASTModel [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
 	fastModel := self importFASTModel
@@ -12,18 +12,18 @@ FamixFortran77ProgramUnit >> bindFASTModel [
 ]
 
 { #category : #'*Carrefour-Fortran' }
-FamixFortran77ProgramUnit >> bindFastModel: fastModel [
+FamixF77ProgramUnit >> bindFastModel: fastModel [
 	self carrefourBinder
 		bindFastModel: fastModel toFamixEntity: self
 ]
 
 { #category : #'*Carrefour-Fortran' }
-FamixFortran77ProgramUnit >> carrefourBinder [
+FamixF77ProgramUnit >> carrefourBinder [
 	^CRFFortranProgramUnitBinderVisitor new
 ]
 
 { #category : #'*Carrefour-Fortran' }
-FamixFortran77ProgramUnit >> importFASTModel [
+FamixF77ProgramUnit >> importFASTModel [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
 

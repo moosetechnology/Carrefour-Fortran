@@ -36,7 +36,7 @@ CRFFBindingTest >> createFamixModel: jsonSource [
 	iastModel := JsonToIASTVisitor new
 		visitProgramFile: (NeoJSONReader fromString: jsonSource).
 
-	visitor := IASTToFortranVisitor new.
+	visitor := IASTToFamixFortranVisitor new.
 	iastModel accept: visitor.
 	famixModel := visitor model.
 
@@ -68,7 +68,7 @@ CRFFBindingTest >> testEmptyFunctionWithArguments [
 
 	(famixModel entityNamed: 'hello') bindFastModel: fastModel.
 
-	entities := famixModel allWithType: FamixFortran77Parameter.
+	entities := famixModel allWithType: FamixF77Parameter.
 	self assert: entities size equals: 2.
 	entities do: [ :fmx |
 		self assert: fmx fastParameter class equals: FASTFortranScalarVariable.
@@ -97,7 +97,7 @@ CRFFBindingTest >> testEmptyFunctionWithDeclaredArguments [
 		fast famixDeclaration ifNotNil: [ :decl | famix := decl ].
 
 		self assert: famix isNotNil.
-		self assert: famix class equals: FamixFortran77Parameter.
+		self assert: famix class equals: FamixF77Parameter.
 		self assert: famix name equals: fast name
 	].
 
@@ -118,7 +118,7 @@ CRFFBindingTest >> testVariableDeclarationReal [
 
 	(famixModel entityNamed: 'main') bindFastModel: fastModel.
 
-	entities := famixModel allWithType: FamixFortran77Variable.
+	entities := famixModel allWithType: FamixF77Variable.
 
 	self assert: entities size equals: 1.
 	entities do: [ :fmx |

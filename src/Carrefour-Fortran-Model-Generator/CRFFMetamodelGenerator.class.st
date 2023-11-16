@@ -35,7 +35,7 @@ CRFFMetamodelGenerator class >> submetamodels [
 { #category : #definition }
 CRFFMetamodelGenerator >> defineClasses [
 	super defineClasses.
-	famixProgramUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixFortran77.
+	famixProgramUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
 	fastProgramUnit := self remoteEntity: #Entity withPrefix: #FASTFortran.
 
 	famixStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.

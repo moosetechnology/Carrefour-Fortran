@@ -1,8 +1,8 @@
 Class {
 	#name : #CRFFModel,
 	#superclass : #MooseModel,
-	#traits : 'FASTFortranTEntityCreator + FASTTEntityCreator + FamixFortran77TEntityCreator',
-	#classTraits : 'FASTFortranTEntityCreator classTrait + FASTTEntityCreator classTrait + FamixFortran77TEntityCreator classTrait',
+	#traits : 'FASTFortranTEntityCreator + FASTTEntityCreator + FamixF77TEntityCreator',
+	#classTraits : 'FASTFortranTEntityCreator classTrait + FASTTEntityCreator classTrait + FamixF77TEntityCreator classTrait',
 	#category : #'Carrefour-Fortran-Model-Model'
 }
 
