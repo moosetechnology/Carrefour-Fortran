@@ -15,7 +15,7 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 
 	(OrderedCollection withAll: (fastModel allWithSubTypesOf: FASTFortranProgramUnit))
 		select: [ :entity | entity parents isEmpty ]
-		thenDo: [ :rootEntity | self accept: rootEntity ].
+		thenDo: [ :rootEntity | rootEntity accept: self ].
 
 ]
 
@@ -44,14 +44,14 @@ CRFFortranProgramUnitBinderVisitor >> locate: aFamixClass named: aName [
 ]
 
 { #category : #'visiting - statements' }
-CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDeclarationStatement: aFASTFortranDeclarationStatement [
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
 	"A declarationStatement can be for a local variable or a Parameter"
 
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
-			(self locate: FamixF77Variable named: decl name)
+			(self locate: FamixF77Variable named: decl variable)
 				ifNotEmpty: [ :vars | famix := vars ]
-				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl name ].
+				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl variable ].
 			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
