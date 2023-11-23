@@ -91,14 +91,23 @@ CRFFBindingTest >> testEmptyFunctionWithDeclaredArguments [
 	(famixModel entityNamed: 'hello') bindFastModel: fastModel.
 
 	entities := (fastModel allWithType: FASTFortranScalarVariable).
-	self assert: entities size equals: 4.
+	self assert: entities size equals: 2.
 	entities do: [ :fast || famix |
-		fast famixParameter ifNotNil: [ :param | famix := param ].
-		fast famixDeclaration ifNotNil: [ :decl | famix := decl ].
+		famix := fast famixParameter.
 
 		self assert: famix isNotNil.
 		self assert: famix class equals: FamixF77Parameter.
 		self assert: famix name equals: fast name
+	].
+
+	entities := (fastModel allWithType: FASTFortranVariableDeclarator).
+	self assert: entities size equals: 2.
+	entities do: [ :fast || famix |
+		famix := fast famixDeclaration.
+
+		self assert: famix isNotNil.
+		self assert: famix class equals: FamixF77Parameter.
+		self assert: famix name equals: fast variable
 	].
 
 
@@ -122,8 +131,8 @@ CRFFBindingTest >> testVariableDeclarationReal [
 
 	self assert: entities size equals: 1.
 	entities do: [ :fmx |
-		self assert: fmx fastDeclaration class equals: FASTFortranScalarVariable.
-		self assert: fmx fastDeclaration name equals: fmx name
+		self assert: fmx fastDeclaration class equals: FASTFortranVariableDeclarator.
+		self assert: fmx fastDeclaration variable equals: fmx name
 	].
 
 

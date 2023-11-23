@@ -51,7 +51,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 		do: [ :decl || famix |
 			(self locate: FamixF77Variable named: decl variable)
 				ifNotEmpty: [ :vars | famix := vars ]
-				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl name ].
+				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl variable ].
 			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
