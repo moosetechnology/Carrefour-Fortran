@@ -18,19 +18,24 @@ FamixF77ProgramUnit >> bindFastModel: fastModel [
 ]
 
 { #category : #'*Carrefour-Fortran' }
+FamixF77ProgramUnit >> carrefourASTGenerator [
+	^FortranProjectImporter defaultInstance
+]
+
+{ #category : #'*Carrefour-Fortran' }
 FamixF77ProgramUnit >> carrefourBinder [
 	^CRFFortranProgramUnitBinderVisitor new
 ]
 
 { #category : #'*Carrefour-Fortran' }
 FamixF77ProgramUnit >> importFASTModel [
-	| fastModel |
+	| fastRootNode |
 	self assert: self sourceAnchor isNotNil.
 
-	fastModel := (FortranProjectImporter new
+	fastRootNode := (self carrefourASTGenerator
 		getFASTFor: self sourceAnchor sourceText)
 		first.
 
-	self fast: fastModel.
-	^fastModel 
+	self fast: fastRootNode.
+	^fastRootNode mooseModel
 ]
