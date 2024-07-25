@@ -1,13 +1,14 @@
 Class {
-	#name : #CRFFortranProgramUnitBinderVisitor,
-	#superclass : #FASTFortranVisitor,
+	#name : 'CRFFortranProgramUnitBinderVisitor',
+	#superclass : 'FASTFortranVisitor',
 	#instVars : [
 		'famixEntity'
 	],
-	#category : #'Carrefour-Fortran'
+	#category : 'Carrefour-Fortran',
+	#package : 'Carrefour-Fortran'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixEntity [
 	
 	self famixEntity: aFamixEntity.
@@ -19,46 +20,46 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CRFFortranProgramUnitBinderVisitor >> ensureFASTMetaModel: aFASTEntity [
 	^(aFASTEntity class = FASTFortranModel)
 		ifFalse: [ aFASTEntity mooseModel: FASTFortranModel new ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CRFFortranProgramUnitBinderVisitor >> famixEntity [
 
 	^ famixEntity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CRFFortranProgramUnitBinderVisitor >> famixEntity: anObject [
 
 	famixEntity := anObject
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CRFFortranProgramUnitBinderVisitor >> locate: aFamixClass named: aName [
 	^(famixEntity allToScope: aFamixClass)
 	select: [ :each |each name = aName ]
 ]
 
-{ #category : #'visiting - statements' }
+{ #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
 	"A declarationStatement can be for a local variable or a Parameter"
 
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
-			(self locate: FamixF77Variable named: decl variable)
+			(self locate: FamixF77Variable named: decl name)
 				ifNotEmpty: [ :vars | famix := vars ]
-				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl variable ].
+				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl name ].
 			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
 		
 ]
 
-{ #category : #'visiting - programUnits' }
+{ #category : 'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitParameter: aFASTFortranScalarVariable [
 	(self locate: FamixF77Parameter named: aFASTFortranScalarVariable name)
 		ifNotEmpty: [ :famixParameters |

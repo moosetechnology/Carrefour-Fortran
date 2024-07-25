@@ -1,14 +1,15 @@
 Class {
-	#name : #CRFFBindingTest,
-	#superclass : #TestCase,
+	#name : 'CRFFBindingTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'famixModel',
 		'fastModel'
 	],
-	#category : #'Carrefour-Fortran-Tests'
+	#category : 'Carrefour-Fortran-Tests',
+	#package : 'Carrefour-Fortran-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFBindingTest >> createFASTModel: jsonSource [
 
 	| visitor |
@@ -19,7 +20,7 @@ CRFFBindingTest >> createFASTModel: jsonSource [
 	fastModel := visitor model
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFBindingTest >> createFASTModel: jsonSource fromFortranSource: fortranCode [
 
 	| visitor |
@@ -29,7 +30,7 @@ CRFFBindingTest >> createFASTModel: jsonSource fromFortranSource: fortranCode [
 	fastModel := visitor model
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFBindingTest >> createFamixModel: jsonSource [
 
 	| iastModel visitor |
@@ -40,43 +41,23 @@ CRFFBindingTest >> createFamixModel: jsonSource [
 	iastModel accept: visitor.
 	famixModel := visitor model.
 
-	(FamixFortran77Resolver on: famixModel)
+	(FamixEsopeResolver on: famixModel)
 		resolve.
 
 	^famixModel
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFBindingTest >> createModels: jsonSource forCode: fortranCode [
-	"Ugly to have to pass both fortran AND json code
-	 But avoids having to call external parser"
+	"Not nice to have to give both fortran and json code
+	 but avoids having to call external parser"
 
 	self createFamixModel: jsonSource.
 	self createFASTModel: jsonSource fromFortranSource: fortranCode.
 ]
 
-{ #category : #tests }
-CRFFBindingTest >> testEmptyFunctionWithArguments [
-
-	| entities |
-	self
-		createModels:
-		'{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(1:30)-(1:30)","tag":"value","value":{"contents":"i","tag":"variable"}},{"anno":[],"span":"(1:32)-(1:32)","tag":"value","value":{"contents":"j","tag":"variable"}}],"span":"(1:30)-(1:32)"},"blocks":[],"name":"hello","result":null,"span":"(1:7)-(2:9)","subprograms":null,"tag":"function","type":{"anno":[],"base_type":"integer","selector":null,"span":"(1:7)-(1:13)"}}]}'
-		forCode: '      integer function hello(i,j)
-      end
-'.
-
-	(famixModel entityNamed: 'hello') bindFastModel: fastModel.
-
-	entities := famixModel allWithType: FamixF77Parameter.
-	self assert: entities size equals: 2.
-	entities do: [ :fmx |
-		self assert: fmx fastParameter class equals: FASTFortranScalarVariable.
-		self assert: fmx fastParameter name equals: fmx name ]
-]
-
-{ #category : #tests }
-CRFFBindingTest >> testEmptyFunctionWithDeclaredArguments [
+{ #category : 'tests' }
+CRFFBindingTest >> testEmptyFunctionWithDeclaredParameters [
 
 	| entities |
 	self
@@ -107,13 +88,33 @@ CRFFBindingTest >> testEmptyFunctionWithDeclaredArguments [
 
 		self assert: famix isNotNil.
 		self assert: famix class equals: FamixF77Parameter.
-		self assert: famix name equals: fast variable
+		self assert: famix name equals: fast name
 	].
 
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
+CRFFBindingTest >> testEmptyFunctionWithParameters [
+
+	| entities |
+	self
+		createModels:
+		'{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(1:30)-(1:30)","tag":"value","value":{"contents":"i","tag":"variable"}},{"anno":[],"span":"(1:32)-(1:32)","tag":"value","value":{"contents":"j","tag":"variable"}}],"span":"(1:30)-(1:32)"},"blocks":[],"name":"hello","result":null,"span":"(1:7)-(2:9)","subprograms":null,"tag":"function","type":{"anno":[],"base_type":"integer","selector":null,"span":"(1:7)-(1:13)"}}]}'
+		forCode: '      integer function hello(i,j)
+      end
+'.
+
+	(famixModel entityNamed: 'hello') bindFastModel: fastModel.
+
+	entities := famixModel allWithType: FamixF77Parameter.
+	self assert: entities size equals: 2.
+	entities do: [ :fmx |
+		self assert: fmx fastParameter class equals: FASTFortranScalarVariable.
+		self assert: fmx fastParameter name equals: fmx name ]
+]
+
+{ #category : 'tests' }
 CRFFBindingTest >> testVariableDeclarationReal [
 
 	| entities |
@@ -132,7 +133,7 @@ CRFFBindingTest >> testVariableDeclarationReal [
 	self assert: entities size equals: 1.
 	entities do: [ :fmx |
 		self assert: fmx fastDeclaration class equals: FASTFortranVariableDeclarator.
-		self assert: fmx fastDeclaration variable equals: fmx name
+		self assert: fmx fastDeclaration name equals: fmx name
 	].
 
 
