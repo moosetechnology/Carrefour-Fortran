@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfCarrefourFortran,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfCarrefourFortran
+	#category : 'BaselineOfCarrefourFortran'
 }
 
 { #category : #baselines }
@@ -40,7 +40,6 @@ BaselineOfCarrefourFortran >> defineGroups: spec [
 { #category : #baselines }
 BaselineOfCarrefourFortran >> definePackages: spec [
 	spec
-		repository: 'https://github.com/NicolasAnquetil/Carrefour-Fortran';
 		package: 'Carrefour-Fortran-Model'
 			with: [ spec requires: #('FamixFortran' 'FASTFortran') ];
 		package: 'Carrefour-Fortran-Model-Generator'
