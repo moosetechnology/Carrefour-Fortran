@@ -1,6 +1,6 @@
-Extension { #name : #FASTFortranVariableDeclarator }
+Extension { #name : 'FASTFortranVariableDeclarator' }
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FASTFortranVariableDeclarator >> famixDeclaration [
 	"Relation named: #famixDeclaration type: #FamixTStructuralEntity opposite: #fastDeclaration"
 
@@ -11,7 +11,7 @@ FASTFortranVariableDeclarator >> famixDeclaration [
 	^ self attributeAt: #famixDeclaration ifAbsent: [ nil ]
 ]
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FASTFortranVariableDeclarator >> famixDeclaration: anObject [
 
 	<generated>

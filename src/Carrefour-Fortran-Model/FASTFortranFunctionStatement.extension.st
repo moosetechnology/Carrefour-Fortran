@@ -1,18 +1,18 @@
-Extension { #name : 'FASTFortranEntity' }
+Extension { #name : 'FASTFortranFunctionStatement' }
 
 { #category : '*Carrefour-Fortran-Model-accessing' }
-FASTFortranEntity >> famix [
-	"Relation named: #famix type: #FamixF77ProgramUnit opposite: #fast"
+FASTFortranFunctionStatement >> famix [
+	"Relation named: #famix type: #FamixF77StatementFunction opposite: #fast"
 
 	<generated>
 	<derived>
-	<FMProperty: #famix type: #FamixF77ProgramUnit opposite: #fast>
+	<FMProperty: #famix type: #FamixF77StatementFunction opposite: #fast>
 	<package: #'Carrefour-Fortran-Model'>
 	^ self attributeAt: #famix ifAbsent: [ nil ]
 ]
 
 { #category : '*Carrefour-Fortran-Model-accessing' }
-FASTFortranEntity >> famix: anObject [
+FASTFortranFunctionStatement >> famix: anObject [
 
 	<generated>
 	(self attributeAt: #famix ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].

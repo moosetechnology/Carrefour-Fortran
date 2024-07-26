@@ -1,6 +1,6 @@
-Extension { #name : #FASTFortranScalarVariable }
+Extension { #name : 'FASTFortranScalarVariable' }
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FASTFortranScalarVariable >> famixParameter [
 	"Relation named: #famixParameter type: #FamixTParameter opposite: #fastParameter"
 
@@ -11,7 +11,7 @@ FASTFortranScalarVariable >> famixParameter [
 	^ self attributeAt: #famixParameter ifAbsent: [ nil ]
 ]
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FASTFortranScalarVariable >> famixParameter: anObject [
 
 	<generated>

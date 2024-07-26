@@ -8,7 +8,11 @@ Class {
 		'fastScalarVariable',
 		'famixStructuralEntity',
 		'famixParameter',
-		'fastVariableDeclarator'
+		'fastVariableDeclarator',
+		'famixStatementFunction',
+		'fastStatementFunction',
+		'famixFunction',
+		'fastFunction'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -38,14 +42,18 @@ CRFFMetamodelGenerator class >> submetamodels [
 CRFFMetamodelGenerator >> defineClasses [
 	super defineClasses.
 
+	famixFunction := self remoteEntity: #PUFunction withPrefix: #FamixF77.
 	famixParameter := self remoteTrait: #TParameter withPrefix: #Famix.
 	famixProgramUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
+	famixStatementFunction := self remoteEntity: #StatementFunction withPrefix: #FamixF77.
 	famixStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
 
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
+	fastFunction := self remoteEntity: #Function withPrefix: #FASTFortran.
 	fastProgramUnit := self remoteEntity: #Entity withPrefix: #FASTFortran.
 	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
 	fastScalarVariable := self remoteEntity: #ScalarVariable withPrefix: #FASTFortran.
+	fastStatementFunction := self remoteEntity: #FunctionStatement withPrefix: #FASTFortran.
 
 ]
 
@@ -57,8 +65,10 @@ CRFFMetamodelGenerator >> defineRelations [
 
 	(famixStructuralEntity property: #fastDeclaration) - (fastVariableDeclarator property: #famixDeclaration).
 	(famixStructuralEntity property: #fastAssignment) -* (fastAssignment property: #famixVariable).
-
 	"Parameters may have 2 FAST entities: FASTProgramUnit>>#parameters and DeclarationStatement"
 	(famixParameter property: #fastParameter) - (fastScalarVariable property: #famixParameter).
+
+	(famixStatementFunction property: #fast) - (fastStatementFunction property: #famix).
+	(famixFunction property: #fast) - (fastFunction property: #famix).
 
 ]
