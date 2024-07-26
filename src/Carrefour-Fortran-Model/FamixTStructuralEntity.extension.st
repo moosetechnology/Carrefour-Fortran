@@ -20,10 +20,10 @@ FamixTStructuralEntity >> fastAssignment: anObject [
 
 { #category : '*Carrefour-Fortran-Model-accessing' }
 FamixTStructuralEntity >> fastDeclaration [
-	"Relation named: #fastDeclaration type: #FASTFortranScalarVariable opposite: #famixDeclaration"
+	"Relation named: #fastDeclaration type: #FASTFortranVariableDeclarator opposite: #famixDeclaration"
 
 	<generated>
-	<FMProperty: #fastDeclaration type: #FASTFortranScalarVariable opposite: #famixDeclaration>
+	<FMProperty: #fastDeclaration type: #FASTFortranVariableDeclarator opposite: #famixDeclaration>
 	<package: #'Carrefour-Fortran-Model'>
 	^ self attributeAt: #fastDeclaration ifAbsent: [ nil ]
 ]
