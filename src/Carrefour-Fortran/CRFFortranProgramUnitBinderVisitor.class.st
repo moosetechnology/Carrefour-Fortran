@@ -59,7 +59,19 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFAST
 	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
 	self assert: (famix size = 1).
 	aFASTFortranAssignmentStatement famixVariable: famix anyOne
+
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionStatement: aFASTFortranFunctionStatement [
+
+	| famix |
+
+	famix := self childrenEntities: FamixF77StatementFunction named:  aFASTFortranFunctionStatement name.
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranFunctionStatement.
 		
+	super visitFASTFortranFunctionStatement: aFASTFortranFunctionStatement
 ]
 
 { #category : 'visiting - statements' }
