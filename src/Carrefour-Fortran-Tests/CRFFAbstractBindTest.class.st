@@ -1,5 +1,5 @@
 Class {
-	#name : 'CRFFAbstractBindingTest',
+	#name : 'CRFFAbstractBindTest',
 	#superclass : 'TestCase',
 	#instVars : [
 		'famixModel',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'running' }
-CRFFAbstractBindingTest >> createFASTModel: jsonSource [
+CRFFAbstractBindTest >> createFASTModel: jsonSource [
 
 	| visitor |
 	visitor := FASTFortranJsonVisitor new.
@@ -20,7 +20,7 @@ CRFFAbstractBindingTest >> createFASTModel: jsonSource [
 ]
 
 { #category : 'running' }
-CRFFAbstractBindingTest >> createFASTModel: jsonSource fromFortranSource: fortranCode [
+CRFFAbstractBindTest >> createFASTModel: jsonSource fromFortranSource: fortranCode [
 
 	| visitor |
 	visitor := FASTFortranJsonVisitor new.
@@ -30,7 +30,7 @@ CRFFAbstractBindingTest >> createFASTModel: jsonSource fromFortranSource: fortra
 ]
 
 { #category : 'running' }
-CRFFAbstractBindingTest >> createFamixModel: jsonSource [
+CRFFAbstractBindTest >> createFamixModel: jsonSource [
 
 	| iastModel visitor |
 	iastModel := JsonToIASTVisitor new
@@ -47,7 +47,7 @@ CRFFAbstractBindingTest >> createFamixModel: jsonSource [
 ]
 
 { #category : 'running' }
-CRFFAbstractBindingTest >> createModels: jsonSource forCode: fortranCode [
+CRFFAbstractBindTest >> createModels: jsonSource forCode: fortranCode [
 	"Not nice to have to give both fortran and json code
 	 but avoids having to call external parser"
 

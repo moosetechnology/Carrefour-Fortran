@@ -1,12 +1,12 @@
 Class {
-	#name : 'CRFFBindingAssignementTest',
-	#superclass : 'CRFFAbstractBindingTest',
+	#name : 'CRFFBindAssignementTest',
+	#superclass : 'CRFFAbstractBindTest',
 	#category : 'Carrefour-Fortran-Tests',
 	#package : 'Carrefour-Fortran-Tests'
 }
 
 { #category : 'tests' }
-CRFFBindingAssignementTest >> testVariableDeclarationReal [
+CRFFBindAssignementTest >> testVariableDeclarationReal [
 
 	| entities fmx fast |
 	self

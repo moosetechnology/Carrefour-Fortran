@@ -1,12 +1,12 @@
 Class {
-	#name : 'CRFFBindingParameterTest',
-	#superclass : 'CRFFAbstractBindingTest',
+	#name : 'CRFFBindParameterTest',
+	#superclass : 'CRFFAbstractBindTest',
 	#category : 'Carrefour-Fortran-Tests',
 	#package : 'Carrefour-Fortran-Tests'
 }
 
 { #category : 'tests' }
-CRFFBindingParameterTest >> testEmptyFunctionWithDeclaredParameters [
+CRFFBindParameterTest >> testEmptyFunctionWithDeclaredParameters [
 
 	| entities |
 	self
@@ -44,7 +44,7 @@ CRFFBindingParameterTest >> testEmptyFunctionWithDeclaredParameters [
 ]
 
 { #category : 'tests' }
-CRFFBindingParameterTest >> testEmptyFunctionWithParameters [
+CRFFBindParameterTest >> testEmptyFunctionWithParameters [
 
 	| entities |
 	self
