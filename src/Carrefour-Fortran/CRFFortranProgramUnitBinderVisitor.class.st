@@ -20,6 +20,19 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 
 ]
 
+{ #category : 'search famix' }
+CRFFortranProgramUnitBinderVisitor >> childrenEntities: aFamixClass named: aName [
+
+	^(famixEntity allToScope: aFamixClass)
+		select: [ :each | each name = aName ]
+]
+
+{ #category : 'search famix' }
+CRFFortranProgramUnitBinderVisitor >> childrenStructuralEntitiesNamed: aName [
+	^(self childrenEntities: FamixF77Variable named: aName)
+		ifEmpty: [ self childrenEntities: FamixF77Parameter named: aName ]
+]
+
 { #category : 'private' }
 CRFFortranProgramUnitBinderVisitor >> ensureFASTMetaModel: aFASTEntity [
 	^(aFASTEntity class = FASTFortranModel)
@@ -38,10 +51,15 @@ CRFFortranProgramUnitBinderVisitor >> famixEntity: anObject [
 	famixEntity := anObject
 ]
 
-{ #category : 'private' }
-CRFFortranProgramUnitBinderVisitor >> locate: aFamixClass named: aName [
-	^(famixEntity allToScope: aFamixClass)
-	select: [ :each |each name = aName ]
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
+
+	| famix |
+
+	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
+	self assert: (famix size = 1).
+	aFASTFortranAssignmentStatement famixVariable: famix anyOne
+		
 ]
 
 { #category : 'visiting - statements' }
@@ -50,9 +68,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
-			(self locate: FamixF77Variable named: decl name)
-				ifNotEmpty: [ :vars | famix := vars ]
-				ifEmpty: [ famix := self locate: FamixF77Parameter named: decl name ].
+			famix := self childrenStructuralEntitiesNamed: decl name.
 			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
@@ -61,7 +77,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 
 { #category : 'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitParameter: aFASTFortranScalarVariable [
-	(self locate: FamixF77Parameter named: aFASTFortranScalarVariable name)
+	(self childrenEntities: FamixF77Parameter named: aFASTFortranScalarVariable name)
 		ifNotEmpty: [ :famixParameters |
 			self assert: (famixParameters size = 1).
 			famixParameters anyOne fastParameter: aFASTFortranScalarVariable ]
