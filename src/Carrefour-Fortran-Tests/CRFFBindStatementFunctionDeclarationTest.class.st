@@ -5,8 +5,8 @@ Class {
 	#package : 'Carrefour-Fortran-Tests'
 }
 
-{ #category : 'tests' }
-CRFFBindStatementFunctionDeclarationTest >> testStatementFunction [
+{ #category : 'as yet unclassified' }
+CRFFBindStatementFunctionDeclarationTest >> testStatementFunctionDeclaration [
 
 	| entities fmx fast |
 	self

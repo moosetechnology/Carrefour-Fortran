@@ -10,16 +10,6 @@ Class {
 }
 
 { #category : 'running' }
-CRFFAbstractBindTest >> createFASTModel: jsonSource [
-
-	| visitor |
-	visitor := FASTFortranJsonVisitor new.
-
-	visitor visitProgramFile: (NeoJSONReader fromString: jsonSource).
-	fastModel := visitor model
-]
-
-{ #category : 'running' }
 CRFFAbstractBindTest >> createFASTModel: jsonSource fromFortranSource: fortranCode [
 
 	| visitor |

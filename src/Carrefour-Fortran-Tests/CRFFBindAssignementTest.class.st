@@ -5,7 +5,7 @@ Class {
 	#package : 'Carrefour-Fortran-Tests'
 }
 
-{ #category : 'tests' }
+{ #category : 'as yet unclassified' }
 CRFFBindAssignementTest >> testVariableDeclarationReal [
 
 	| entities fmx fast |
