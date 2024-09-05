@@ -14,6 +14,8 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 	self famixEntity: aFamixEntity.
 	fastModel metamodel: CRFFModel metamodel.
 
+	"#allWithSubTypesOf: returns a FMMultiValueLink,
+	 we need an OrderedCollection to use #select:thenDo:"
 	(OrderedCollection withAll: (fastModel allWithSubTypesOf: FASTFortranProgramUnit))
 		select: [ :entity | entity parents isEmpty ]
 		thenDo: [ :rootEntity | rootEntity accept: self ].
@@ -22,6 +24,7 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 
 { #category : 'search famix' }
 CRFFortranProgramUnitBinderVisitor >> childrenEntities: aFamixClass named: aName [
+	"note that famixEntity's 'children' include the famixEntity itself"
 
 	^(famixEntity allToScope: aFamixClass)
 		select: [ :each | each name = aName ]
@@ -58,7 +61,22 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFAST
 
 	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
 	self assert: (famix size = 1).
-	aFASTFortranAssignmentStatement famixVariable: famix anyOne
+	aFASTFortranAssignmentStatement famixVariable: famix anyOne.
+
+	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
+]
+
+{ #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunction: aFASTFortranFunction [
+
+	| famix |
+
+	famix := self childrenEntities: FamixF77PUFunction named: aFASTFortranFunction name.
+
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranFunction.
+
+	super visitFASTFortranFunction: aFASTFortranFunction
 
 ]
 
@@ -84,7 +102,8 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
-		
+
+	super visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement
 ]
 
 { #category : 'visiting - programUnits' }
