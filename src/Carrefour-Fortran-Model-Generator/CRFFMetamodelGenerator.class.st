@@ -12,7 +12,9 @@ Class {
 		'famixStatementFunction',
 		'fastStatementFunction',
 		'famixFunction',
-		'fastFunction'
+		'fastFunction',
+		'famixInvocation',
+		'fastCallStatement'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -47,6 +49,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	famixProgramUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
 	famixStatementFunction := self remoteEntity: #StatementFunction withPrefix: #FamixF77.
 	famixStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
+	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
 
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
 	fastFunction := self remoteEntity: #Function withPrefix: #FASTFortran.
@@ -54,6 +57,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
 	fastScalarVariable := self remoteEntity: #ScalarVariable withPrefix: #FASTFortran.
 	fastStatementFunction := self remoteEntity: #FunctionStatement withPrefix: #FASTFortran.
+	fastCallStatement := self remoteEntity: #CallStatement withPrefix: #FASTFortran.
 
 ]
 
@@ -70,5 +74,7 @@ CRFFMetamodelGenerator >> defineRelations [
 
 	(famixStatementFunction property: #fast) - (fastStatementFunction property: #famix).
 	(famixFunction property: #fast) - (fastFunction property: #famix).
+
+	(famixInvocation property: #fast) - (fastCallStatement property: #famix).
 
 ]
