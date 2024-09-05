@@ -66,6 +66,19 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFAST
 	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
 ]
 
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranCallStatement: aFASTFortranCallStatement [
+
+	self famixEntity outgoingInvocations
+		detect: [ :invok |
+			(invok signature = aFASTFortranCallStatement name)
+			and: [ invok fast isNil ] ]
+		ifOne: [ :found | found fast: aFASTFortranCallStatement ]
+		ifNone: [ ].
+
+	super visitFASTFortranCallStatement: aFASTFortranCallStatement 
+]
+
 { #category : 'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunction: aFASTFortranFunction [
 
