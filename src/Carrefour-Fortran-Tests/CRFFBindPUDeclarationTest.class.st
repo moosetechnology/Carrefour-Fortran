@@ -5,7 +5,7 @@ Class {
 	#package : 'Carrefour-Fortran-Tests'
 }
 
-{ #category : 'tests' }
+{ #category : 'as yet unclassified' }
 CRFFBindPUDeclarationTest >> testPUFunctionDeclaration [
 
 	| entities fmx fast |
@@ -30,7 +30,7 @@ CRFFBindPUDeclarationTest >> testPUFunctionDeclaration [
 
 ]
 
-{ #category : 'tests' }
+{ #category : 'as yet unclassified' }
 CRFFBindPUDeclarationTest >> testPUMainDeclaration [
 
 	| entities fmx fast |
@@ -55,7 +55,7 @@ CRFFBindPUDeclarationTest >> testPUMainDeclaration [
 
 ]
 
-{ #category : 'tests' }
+{ #category : 'as yet unclassified' }
 CRFFBindPUDeclarationTest >> testPUSubroutineDeclaration [
 
 	| entities fmx fast |
