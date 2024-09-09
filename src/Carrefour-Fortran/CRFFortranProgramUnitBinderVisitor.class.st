@@ -119,6 +119,20 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranProgramMain: aFASTFortranP
 
 ]
 
+{ #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSubroutine [
+
+	| famix |
+
+	famix := self childrenEntities: FamixF77PUSubroutine named: aFASTFortranSubroutine name.
+
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranSubroutine.
+
+	super visitFASTFortranSubroutine: aFASTFortranSubroutine
+
+]
+
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
 	"A declarationStatement can be for a local variable or a Parameter"

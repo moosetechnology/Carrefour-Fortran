@@ -54,3 +54,28 @@ CRFFBindPUDeclarationTest >> testPUMainDeclaration [
 	self assert: fast name equals: fmx name
 
 ]
+
+{ #category : 'tests' }
+CRFFBindPUDeclarationTest >> testPUSubroutineDeclaration [
+
+	| entities fmx fast |
+	self
+		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"/home/anquetil/Pharo/images/crf-fortran/srcCode.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[],"name":"blah","options":[null,null],"span":"(1:7)-(2:9)","subprograms":null,"tag":"subroutine"}]}'
+		forCode:
+'      subroutine blah
+      end
+'.
+
+	(famixModel entityNamed: 'blah') bindFastModel: fastModel.
+
+	entities := famixModel allWithType: FamixF77PUSubroutine.
+
+	self assert: entities size equals: 1.
+	fmx := entities anyOne.
+	fast := fmx fast.
+
+	self assert: fast isNotNil.
+	self assert: fast class equals: FASTFortranSubroutine.
+	self assert: fast name equals: fmx name
+
+]
