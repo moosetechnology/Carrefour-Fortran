@@ -21,14 +21,14 @@ CRFFBindPUDeclarationTest >> testPUExternalFunction [
 
 	(famixModel entityNamed: 'main') bindFastModel: fastModel.
 
-	entities := famixModel allWithType: FamixF77PUFunction.
+	entities := famixModel allWithType: FamixF77ExternalDeclaration.
 
 	self assert: entities size equals: 1.
 	fmx := entities anyOne.
 	fast := fmx fast.
 
 	self assert: fast isNotNil.
-	self assert: fast class equals: FASTFortranFunction.
+	self assert: fast class equals: FASTFortranExternalFunctionDeclarationStatement.
 	self assert: fast name equals: fmx name
 
 ]

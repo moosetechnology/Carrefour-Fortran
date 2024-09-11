@@ -14,7 +14,9 @@ Class {
 		'famixFunction',
 		'fastFunction',
 		'famixInvocation',
-		'fastCallStatement'
+		'fastCallStatement',
+		'famixExternalFunction',
+		'fastExternalFunctionDeclarationStatement'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -45,6 +47,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	super defineClasses.
 
 	famixFunction := self remoteEntity: #PUFunction withPrefix: #FamixF77.
+	famixExternalFunction := self remoteEntity: #ExternalDeclaration withPrefix: #FamixF77.
 	famixParameter := self remoteTrait: #TParameter withPrefix: #Famix.
 	famixProgramUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
 	famixStatementFunction := self remoteEntity: #StatementFunction withPrefix: #FamixF77.
@@ -52,12 +55,13 @@ CRFFMetamodelGenerator >> defineClasses [
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
 
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
+	fastCallStatement := self remoteEntity: #CallStatement withPrefix: #FASTFortran.
+	fastExternalFunctionDeclarationStatement := self remoteEntity: #ExternalFunctionDeclarationStatement withPrefix: #FASTFortran.
 	fastFunction := self remoteEntity: #Function withPrefix: #FASTFortran.
 	fastProgramUnit := self remoteEntity: #Entity withPrefix: #FASTFortran.
-	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
 	fastScalarVariable := self remoteEntity: #ScalarVariable withPrefix: #FASTFortran.
 	fastStatementFunction := self remoteEntity: #FunctionStatement withPrefix: #FASTFortran.
-	fastCallStatement := self remoteEntity: #CallStatement withPrefix: #FASTFortran.
+	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
 
 ]
 
@@ -74,7 +78,7 @@ CRFFMetamodelGenerator >> defineRelations [
 
 	(famixStatementFunction property: #fast) - (fastStatementFunction property: #famix).
 	(famixFunction property: #fast) - (fastFunction property: #famix).
-
+	(famixExternalFunction property: #fast) - (fastExternalFunctionDeclarationStatement property: #famix).
 	(famixInvocation property: #fast) - (fastCallStatement property: #famix).
 
 ]
