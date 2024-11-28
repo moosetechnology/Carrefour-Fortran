@@ -1,8 +1,8 @@
 Class {
 	#name : 'CRFFModel',
 	#superclass : 'MooseModel',
-	#traits : 'FASTFortranTEntityCreator + FASTTEntityCreator + FamixF77TEntityCreator',
-	#classTraits : 'FASTFortranTEntityCreator classTrait + FASTTEntityCreator classTrait + FamixF77TEntityCreator classTrait',
+	#traits : 'FASTFortranTEntityCreator + FASTTEntityCreator + FamixEsopeTEntityCreator + FamixF77TEntityCreator + FamixFortranTEntityCreator',
+	#classTraits : 'FASTFortranTEntityCreator classTrait + FASTTEntityCreator classTrait + FamixEsopeTEntityCreator classTrait + FamixF77TEntityCreator classTrait + FamixFortranTEntityCreator classTrait',
 	#category : 'Carrefour-Fortran-Model-Model',
 	#package : 'Carrefour-Fortran-Model',
 	#tag : 'Model'
@@ -11,7 +11,7 @@ Class {
 { #category : 'accessing' }
 CRFFModel class >> allSubmetamodelsPackagesNames [
 	<generated>
-	^ #(#'Moose-Query' #'Famix-Traits' #'Famix-Fortran77-Entities' #'FAST-Fortran-Entities' #'FAST-Core-Model')
+	^ #(#'Moose-Query' #'Famix-Traits' #'Famix-FortranUDT-Entities' #'Famix-Fortran77-Entities' #'Famix-Esope-Entities' #'FAST-Fortran-Entities' #'FAST-Core-Model')
 ]
 
 { #category : 'meta' }

@@ -1,7 +1,7 @@
-Extension { #name : 'FASTFortranExternalFunctionDeclarationStatement' }
+Extension { #name : 'FASTFortranExternalStatement' }
 
 { #category : '*Carrefour-Fortran-Model-accessing' }
-FASTFortranExternalFunctionDeclarationStatement >> famix [
+FASTFortranExternalStatement >> famix [
 	"Relation named: #famix type: #FamixF77ExternalDeclaration opposite: #fast"
 
 	<generated>
@@ -12,7 +12,7 @@ FASTFortranExternalFunctionDeclarationStatement >> famix [
 ]
 
 { #category : '*Carrefour-Fortran-Model-accessing' }
-FASTFortranExternalFunctionDeclarationStatement >> famix: anObject [
+FASTFortranExternalStatement >> famix: anObject [
 
 	<generated>
 	(self attributeAt: #famix ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].

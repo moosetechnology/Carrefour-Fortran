@@ -91,6 +91,18 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranExternalFunctionDeclaratio
 
 ]
 
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranExternalStatement: aFASTExternalStatement [
+
+	(self childrenEntities: FamixF77ExternalDeclaration named: aFASTExternalStatement name)
+		ifNotEmpty: [ :famixEntities |
+			self assert: (famixEntities size = 1).
+			famixEntities anyOne fast: aFASTExternalStatement ]
+
+	
+
+]
+
 { #category : 'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunction: aFASTFortranFunction [
 

@@ -1,17 +1,17 @@
-Extension { #name : 'FamixF77ExternalDeclaration' }
+Extension { #name : 'FamixEsopeSegment' }
 
 { #category : '*Carrefour-Fortran-Model-accessing' }
-FamixF77ExternalDeclaration >> fast [
-	"Relation named: #fast type: #FASTFortranExternalStatement opposite: #famix"
+FamixEsopeSegment >> fast [
+	"Relation named: #fast type: #FASTFortranSegment opposite: #famix"
 
 	<generated>
-	<FMProperty: #fast type: #FASTFortranExternalStatement opposite: #famix>
+	<FMProperty: #fast type: #FASTFortranSegment opposite: #famix>
 	<package: #'Carrefour-Fortran-Model'>
 	^ self attributeAt: #fast ifAbsent: [ nil ]
 ]
 
 { #category : '*Carrefour-Fortran-Model-accessing' }
-FamixF77ExternalDeclaration >> fast: anObject [
+FamixEsopeSegment >> fast: anObject [
 
 	<generated>
 	(self attributeAt: #fast ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].

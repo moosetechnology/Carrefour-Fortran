@@ -35,7 +35,7 @@ FamixEsopeSegment >> importFASTModel [
 		FortranProjectImporter new 
 			writeFakeEsopeProgramUnit: 'fakesubroutine' 
 			from: segmentSource
-			on: aStream. 
+			on: aStream
 	].
 
 	tempModel := FASTFortranImporter onSourceString: fortranCode.
