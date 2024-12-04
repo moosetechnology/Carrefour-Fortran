@@ -14,6 +14,8 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 	self famixEntity: aFamixEntity.
 	fastModel metamodel: CRFFModel metamodel.
 
+	"#allWithSubTypesOf: returns a FMMultiValueLink,
+	 we need an OrderedCollection to use #select:thenDo:"
 	(OrderedCollection withAll: (fastModel allWithSubTypesOf: FASTFortranProgramUnit))
 		select: [ :entity | entity parents isEmpty ]
 		thenDo: [ :rootEntity | rootEntity accept: self ].
@@ -22,6 +24,7 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 
 { #category : 'search famix' }
 CRFFortranProgramUnitBinderVisitor >> childrenEntities: aFamixClass named: aName [
+	"note that famixEntity's 'children' include the famixEntity itself"
 
 	^(famixEntity allToScope: aFamixClass)
 		select: [ :each | each name = aName ]
@@ -58,7 +61,59 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFAST
 
 	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
 	self assert: (famix size = 1).
-	aFASTFortranAssignmentStatement famixVariable: famix anyOne
+	aFASTFortranAssignmentStatement famixVariable: famix anyOne.
+
+	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranCallStatement: aFASTFortranCallStatement [
+
+	self famixEntity outgoingInvocations
+		detect: [ :invok |
+			(invok signature = aFASTFortranCallStatement name)
+			and: [ invok fast isNil ] ]
+		ifOne: [ :found | found fast: aFASTFortranCallStatement ]
+		ifNone: [ ].
+
+	super visitFASTFortranCallStatement: aFASTFortranCallStatement 
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranExternalFunctionDeclarationStatement: aFASTExternalFunctionDeclarationStatement [
+
+	(self childrenEntities: FamixF77ExternalDeclaration named: aFASTExternalFunctionDeclarationStatement name)
+		ifNotEmpty: [ :famixEntities |
+			self assert: (famixEntities size = 1).
+			famixEntities anyOne fast: aFASTExternalFunctionDeclarationStatement ]
+
+	
+
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranExternalStatement: aFASTExternalStatement [
+
+	(self childrenEntities: FamixF77ExternalDeclaration named: aFASTExternalStatement name)
+		ifNotEmpty: [ :famixEntities |
+			self assert: (famixEntities size = 1).
+			famixEntities anyOne fast: aFASTExternalStatement ]
+
+	
+
+]
+
+{ #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunction: aFASTFortranFunction [
+
+	| famix |
+
+	famix := self childrenEntities: FamixF77PUFunction named: aFASTFortranFunction name.
+
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranFunction.
+
+	super visitFASTFortranFunction: aFASTFortranFunction
 
 ]
 
@@ -74,6 +129,48 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionStatement: aFASTFo
 	super visitFASTFortranFunctionStatement: aFASTFortranFunctionStatement
 ]
 
+{ #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranProgramMain: aFASTFortranProgramMain [
+
+	| famix |
+
+	famix := self childrenEntities: FamixF77PUMain named: aFASTFortranProgramMain name.
+
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranProgramMain.
+
+	super visitFASTFortranProgramMain: aFASTFortranProgramMain
+
+]
+
+{ #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSegment: aFASTFortranSegment [
+
+	| famix |
+
+	famix := self childrenEntities: FamixEsopeSegment named: aFASTFortranSegment name.
+
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranSegment.
+
+	super visitFASTFortranSegment: aFASTFortranSegment
+
+]
+
+{ #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSubroutine [
+
+	| famix |
+
+	famix := self childrenEntities: FamixF77PUSubroutine named: aFASTFortranSubroutine name.
+
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranSubroutine.
+
+	super visitFASTFortranSubroutine: aFASTFortranSubroutine
+
+]
+
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
 	"A declarationStatement can be for a local variable or a Parameter"
@@ -84,7 +181,8 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
-		
+
+	super visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement
 ]
 
 { #category : 'visiting - programUnits' }

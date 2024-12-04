@@ -12,7 +12,13 @@ Class {
 		'famixStatementFunction',
 		'fastStatementFunction',
 		'famixFunction',
-		'fastFunction'
+		'fastFunction',
+		'famixInvocation',
+		'fastCallStatement',
+		'famixExternalFunction',
+		'famixSegment',
+		'fastSegment',
+		'fastExternalStatement'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -32,10 +38,14 @@ CRFFMetamodelGenerator class >> prefix [
 
 { #category : 'accessing' }
 CRFFMetamodelGenerator class >> submetamodels [
-	^ {FASTMetamodelGenerator.
-	FASTFortranGenerator.
-	FamixFortran77Generator.
-	FamixGenerator }
+
+	^ {
+		  FASTMetamodelGenerator.
+		  FASTFortranGenerator.
+		  FamixFortran77Generator.
+		  FamixGenerator.
+		  FamixEsopeGenerator 
+		}
 ]
 
 { #category : 'definition' }
@@ -43,17 +53,24 @@ CRFFMetamodelGenerator >> defineClasses [
 	super defineClasses.
 
 	famixFunction := self remoteEntity: #PUFunction withPrefix: #FamixF77.
+	famixExternalFunction := self remoteEntity: #ExternalDeclaration withPrefix: #FamixF77.
 	famixParameter := self remoteTrait: #TParameter withPrefix: #Famix.
 	famixProgramUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
 	famixStatementFunction := self remoteEntity: #StatementFunction withPrefix: #FamixF77.
 	famixStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
+	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
+	famixSegment := self remoteEntity: #Segment withPrefix: #FamixEsope.
 
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
+	fastCallStatement := self remoteEntity: #CallStatement withPrefix: #FASTFortran.
+	fastExternalStatement := self remoteEntity: #ExternalStatement withPrefix: #FASTFortran.
 	fastFunction := self remoteEntity: #Function withPrefix: #FASTFortran.
 	fastProgramUnit := self remoteEntity: #Entity withPrefix: #FASTFortran.
-	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
 	fastScalarVariable := self remoteEntity: #ScalarVariable withPrefix: #FASTFortran.
 	fastStatementFunction := self remoteEntity: #FunctionStatement withPrefix: #FASTFortran.
+	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
+	fastSegment := self remoteEntity: #Segment withPrefix: #FASTFortran.
+
 
 ]
 
@@ -70,5 +87,8 @@ CRFFMetamodelGenerator >> defineRelations [
 
 	(famixStatementFunction property: #fast) - (fastStatementFunction property: #famix).
 	(famixFunction property: #fast) - (fastFunction property: #famix).
+	(famixExternalFunction property: #fast) - (fastExternalStatement property: #famix).
+	(famixInvocation property: #fast) - (fastCallStatement property: #famix).
+	(famixSegment property: #fast) - (fastSegment property: #famix).
 
 ]
