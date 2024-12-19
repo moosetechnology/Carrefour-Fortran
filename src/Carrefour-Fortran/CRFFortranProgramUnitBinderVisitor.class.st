@@ -132,12 +132,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionStatement: aFASTFo
 { #category : 'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranProgramMain: aFASTFortranProgramMain [
 
-	| famix |
-
-	famix := self childrenEntities: FamixF77PUMain named: aFASTFortranProgramMain name.
-
-	self assert: (famix size = 1).
-	famix anyOne fast: aFASTFortranProgramMain.
+	famixEntity fast: aFASTFortranProgramMain.
 
 	super visitFASTFortranProgramMain: aFASTFortranProgramMain
 
