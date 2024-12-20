@@ -139,20 +139,6 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranProgramMain: aFASTFortranP
 ]
 
 { #category : 'visiting - programUnits' }
-CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSegment: aFASTFortranSegment [
-
-	| famix |
-
-	famix := self childrenEntities: FamixEsopeSegment named: aFASTFortranSegment name.
-
-	self assert: (famix size = 1).
-	famix anyOne fast: aFASTFortranSegment.
-
-	super visitFASTFortranSegment: aFASTFortranSegment
-
-]
-
-{ #category : 'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSubroutine [
 
 	| famix |
