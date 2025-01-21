@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfCarrefourFortran,
-	#superclass : #BaselineOf,
-	#category : 'BaselineOfCarrefourFortran'
+	#name : 'BaselineOfCarrefourFortran',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfCarrefourFortran',
+	#package : 'BaselineOfCarrefourFortran'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefourFortran >> baseline: spec [
 	<baseline>
 	spec
@@ -16,7 +17,7 @@ BaselineOfCarrefourFortran >> baseline: spec [
 			self defineGroups: spec ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefourFortran >> defineDependencies: spec [
 	spec
 		baseline: 'FASTFortran'
@@ -30,14 +31,14 @@ BaselineOfCarrefourFortran >> defineDependencies: spec [
 				repository: 'github://moosetechnology/Famix-Fortran' ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefourFortran >> defineGroups: spec [
 	spec
-		group: 'core' with: #('Carrefour-Fortran-Model' 'Carrefour-Fortran');
+		group: 'core' with: #('Carrefour-Fortran-Model' 'Carrefour-Fortran' 'Carrefour-Fortran-Tests');
 		group: 'default' with: #('core')
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefourFortran >> definePackages: spec [
 	spec
 		package: 'Carrefour-Fortran-Model'
@@ -45,6 +46,9 @@ BaselineOfCarrefourFortran >> definePackages: spec [
 		package: 'Carrefour-Fortran-Model-Generator'
 			with: [ spec requires: #('FASTFortran' 'FamixFortran') ] ;
 		package: 'Carrefour-Fortran'
-			with: [ spec requires: #('Carrefour-Fortran-Model') ]
+			with: [ spec requires: #('Carrefour-Fortran-Model') ] ;
+		package: 'Carrefour-Fortran-Tests'
+			with: [ spec requires: #('Carrefour-Fortran') ]
+
 
 ]

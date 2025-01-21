@@ -1,6 +1,6 @@
-Extension { #name : #FamixTStructuralEntity }
+Extension { #name : 'FamixTStructuralEntity' }
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FamixTStructuralEntity >> fastAssignment [
 	"Relation named: #fastAssignment type: #FASTFortranAssignmentStatement opposite: #famixVariable"
 
@@ -11,24 +11,24 @@ FamixTStructuralEntity >> fastAssignment [
 	^ self attributeAt: #fastAssignment ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FamixTStructuralEntity >> fastAssignment: anObject [
 
 	<generated>
 	self fastAssignment value: anObject
 ]
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FamixTStructuralEntity >> fastDeclaration [
-	"Relation named: #fastDeclaration type: #FASTFortranScalarVariable opposite: #famixDeclaration"
+	"Relation named: #fastDeclaration type: #FASTFortranVariableDeclarator opposite: #famixDeclaration"
 
 	<generated>
-	<FMProperty: #fastDeclaration type: #FASTFortranScalarVariable opposite: #famixDeclaration>
+	<FMProperty: #fastDeclaration type: #FASTFortranVariableDeclarator opposite: #famixDeclaration>
 	<package: #'Carrefour-Fortran-Model'>
 	^ self attributeAt: #fastDeclaration ifAbsent: [ nil ]
 ]
 
-{ #category : #'*Carrefour-Fortran-Model-accessing' }
+{ #category : '*Carrefour-Fortran-Model-accessing' }
 FamixTStructuralEntity >> fastDeclaration: anObject [
 
 	<generated>

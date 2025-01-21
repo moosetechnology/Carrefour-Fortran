@@ -1,1 +1,1 @@
-Package { #name : #'Carrefour-Fortran-Model' }
+Package { #name : 'Carrefour-Fortran-Model' }
