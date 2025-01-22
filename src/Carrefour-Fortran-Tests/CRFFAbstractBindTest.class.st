@@ -13,7 +13,7 @@ Class {
 CRFFAbstractBindTest >> createFASTModel: jsonSource fromFortranSource: fortranCode [
 
 	| visitor |
-	visitor := FASTFortranJsonVisitor new.
+	visitor := self jsonImporterClass new.
 	visitor initLineSizes: fortranCode.
 	visitor visitProgramFile: (NeoJSONReader fromString: jsonSource).
 	fastModel := visitor model
@@ -43,4 +43,10 @@ CRFFAbstractBindTest >> createModels: jsonSource forCode: fortranCode [
 
 	self createFamixModel: jsonSource.
 	self createFASTModel: jsonSource fromFortranSource: fortranCode.
+]
+
+{ #category : 'running' }
+CRFFAbstractBindTest >> jsonImporterClass [
+
+	^FASTFortranJsonVisitor
 ]
