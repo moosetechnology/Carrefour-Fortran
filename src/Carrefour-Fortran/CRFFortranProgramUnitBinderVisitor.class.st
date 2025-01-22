@@ -14,11 +14,8 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 	self famixEntity: aFamixEntity.
 	fastModel metamodel: CRFFModel metamodel.
 
-	"#allWithSubTypesOf: returns a FMMultiValueLink,
-	 we need an OrderedCollection to use #select:thenDo:"
-	(OrderedCollection withAll: (fastModel allWithSubTypesOf: FASTFortranProgramUnit))
-		select: [ :entity | entity parents isEmpty ]
-		thenDo: [ :rootEntity | rootEntity accept: self ].
+	(self rootEntitiesIn: fastModel)
+		do: [ :rootEntity | rootEntity accept: self ].
 
 ]
 
@@ -52,6 +49,19 @@ CRFFortranProgramUnitBinderVisitor >> famixEntity [
 CRFFortranProgramUnitBinderVisitor >> famixEntity: anObject [
 
 	famixEntity := anObject
+]
+
+{ #category : 'accessing' }
+CRFFortranProgramUnitBinderVisitor >> fastMetamodel [
+
+	^CRFFModel metamodel
+]
+
+{ #category : 'search famix' }
+CRFFortranProgramUnitBinderVisitor >> rootEntitiesIn: fastModel [
+
+	^(fastModel allWithSubTypesOf: FASTFortranProgramUnit)
+		select: [ :entity | entity parents isEmpty ]
 ]
 
 { #category : 'visiting - statements' }
