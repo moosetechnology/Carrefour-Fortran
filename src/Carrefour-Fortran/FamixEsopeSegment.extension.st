@@ -18,7 +18,7 @@ FamixEsopeSegment >> bindFASTModel [
 { #category : '*Carrefour-Fortran' }
 FamixEsopeSegment >> bindFastModel: fastModel [
 
-	CRFFortranProgramUnitBinderVisitor new
+	CRFEsopeBinderVisitor new
 		bindFastModel: fastModel
 		toFamixEntity: self
 ]
