@@ -14,11 +14,11 @@ Class {
 		'famixFunction',
 		'fastFunction',
 		'famixInvocation',
-		'fastCallStatement',
 		'famixExternalFunction',
 		'fastExternalStatement',
 		'famixProgramFile',
-		'fastProgramFile'
+		'fastProgramFile',
+		'fastTWithArguments'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -62,7 +62,6 @@ CRFFMetamodelGenerator >> defineClasses [
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
 
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
-	fastCallStatement := self remoteEntity: #CallStatement withPrefix: #FASTFortran.
 	fastExternalStatement := self remoteEntity: #ExternalStatement withPrefix: #FASTFortran.
 	fastFunction := self remoteEntity: #Function withPrefix: #FASTFortran.
 	fastProgramFile := self remoteEntity: #ProgramFile withPrefix: #FASTFortran.
@@ -71,7 +70,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	fastStatementFunction := self remoteEntity: #FunctionStatement withPrefix: #FASTFortran.
 	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
 
-
+	fastTWithArguments := self remoteTrait: #TWithArguments withPrefix: #FAST.
 ]
 
 { #category : 'definition' }
@@ -90,6 +89,8 @@ CRFFMetamodelGenerator >> defineRelations [
 	(famixStatementFunction property: #fast) - (fastStatementFunction property: #famix).
 	(famixFunction property: #fast) - (fastFunction property: #famix).
 	(famixExternalFunction property: #fast) - (fastExternalStatement property: #famix).
-	(famixInvocation property: #fast) - (fastCallStatement property: #famix)
+
+	"FASTTWithArguments regroup both calls: CallStatement and FunctionCall"
+	(famixInvocation property: #fast) - (fastTWithArguments property: #famix)
 
 ]
