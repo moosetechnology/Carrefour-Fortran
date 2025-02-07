@@ -133,6 +133,19 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunction: aFASTFortranFunc
 
 ]
 
+{ #category : 'visiting - expressions' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionCall: aFASTFortranFunctionCall [
+
+	self famixEntity outgoingInvocations
+		detect: [ :invok |
+			(invok signature = aFASTFortranFunctionCall name)
+			and: [ invok fast isNil ] ]
+		ifOne: [ :found | found fast: aFASTFortranFunctionCall ]
+		ifNone: [ ].
+
+	super visitFASTFortranFunctionCall: aFASTFortranFunctionCall 
+]
+
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionStatement: aFASTFortranFunctionStatement [
 
