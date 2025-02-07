@@ -64,6 +64,12 @@ CRFFortranProgramUnitBinderVisitor >> rootEntitiesIn: fastModel [
 		select: [ :entity | entity parents isEmpty ]
 ]
 
+{ #category : 'visiting' }
+CRFFortranProgramUnitBinderVisitor >> visitCharacterLiteralNode: aFASTFortranCharacterLiteral [
+
+	^ aFASTFortranCharacterLiteral primitiveValue
+]
+
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
 
