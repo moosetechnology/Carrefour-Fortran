@@ -76,7 +76,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFAST
 	| famix |
 
 	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
-	self assert: (famix size = 1).
+	(famix size = 1) ifFalse: [ ^self ].
 	aFASTFortranAssignmentStatement famixVariable: famix anyOne.
 
 	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
