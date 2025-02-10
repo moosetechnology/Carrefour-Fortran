@@ -76,7 +76,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFAST
 	| famix |
 
 	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
-	self assert: (famix size = 1).
+	(famix size = 1) ifFalse: [ ^self ].
 	aFASTFortranAssignmentStatement famixVariable: famix anyOne.
 
 	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
@@ -133,6 +133,19 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunction: aFASTFortranFunc
 
 ]
 
+{ #category : 'visiting - expressions' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionCall: aFASTFortranFunctionCall [
+
+	self famixEntity outgoingInvocations
+		detect: [ :invok |
+			(invok signature = aFASTFortranFunctionCall name)
+			and: [ invok fast isNil ] ]
+		ifOne: [ :found | found fast: aFASTFortranFunctionCall ]
+		ifNone: [ ].
+
+	super visitFASTFortranFunctionCall: aFASTFortranFunctionCall 
+]
+
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionStatement: aFASTFortranFunctionStatement [
 
@@ -175,7 +188,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
 			famix := self childrenStructuralEntitiesNamed: decl name.
-			self assert: (famix size = 1).
+			(famix size = 1) ifFalse: [ ^self ].
 			famix anyOne fastDeclaration: decl
 		].
 
