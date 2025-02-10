@@ -188,7 +188,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
 			famix := self childrenStructuralEntitiesNamed: decl name.
-			self assert: (famix size = 1).
+			(famix size = 1) ifFalse: [ ^self ].
 			famix anyOne fastDeclaration: decl
 		].
 
