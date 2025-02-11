@@ -2,7 +2,8 @@ SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
       #baseline : 'CarrefourFortran',
-      #directory : 'src'
+      #directory : 'src',
+      #load : [ 'all' ]
     }
   ]
 }
