@@ -74,9 +74,12 @@ CRFFortranProgramUnitBinderVisitor >> visitCharacterLiteralNode: aFASTFortranCha
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
 
 	| famix |
+	
+	"aFASTFortranAssignmentStatement variable accept: self.
+	aFASTFortranAssignmentStatement expression accept: self."
 
 	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
-	(famix size = 1) ifFalse: [ ^self ].
+	self assert: (famix size = 1).
 	aFASTFortranAssignmentStatement famixVariable: famix anyOne.
 
 	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
@@ -117,6 +120,24 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranExternalStatement: aFASTEx
 
 	
 
+]
+
+{ #category : 'visiting' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFieldAccess: aFASTFortranFieldAccess [
+	| famix segment |
+	famix := self childrenStructuralEntitiesNamed: aFASTFortranFieldAccess pointer name.
+	self assert: (famix size = 1).
+	famix anyOne fast: aFASTFortranFieldAccess pointer.
+
+	segment := famix anyOne declaredType.
+	self assert: (segment isNotNil).
+
+	segment attributes 
+		detect: [ :attribute |
+			attribute name = aFASTFortranFieldAccess field name
+			and: [ attribute fast isNil ] ]
+		ifOne: [ :found | found fast: aFASTFortranFieldAccess field ]
+		ifNone: [  ]
 ]
 
 { #category : 'visiting - programUnits' }
@@ -188,7 +209,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStateme
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
 			famix := self childrenStructuralEntitiesNamed: decl name.
-			(famix size = 1) ifFalse: [ ^self ].
+			self assert: (famix size = 1).
 			famix anyOne fastDeclaration: decl
 		].
 
