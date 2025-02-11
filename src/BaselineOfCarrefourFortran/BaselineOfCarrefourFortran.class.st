@@ -33,6 +33,7 @@ BaselineOfCarrefourFortran >> defineDependencies: spec [
 
 { #category : 'baselines' }
 BaselineOfCarrefourFortran >> defineGroups: spec [
+	
 	spec
 		group: 'core' with: #('Carrefour-Fortran-Model' 'Carrefour-Fortran' 'Carrefour-Fortran-Tests');
 		group: 'default' with: #('core')
