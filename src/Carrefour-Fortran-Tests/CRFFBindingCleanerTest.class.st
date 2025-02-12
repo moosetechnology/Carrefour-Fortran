@@ -85,31 +85,9 @@ CRFFBindingCleanerTest >> fastIntegerLiteral: value [
 ]
 
 { #category : 'running' }
-CRFFBindingCleanerTest >> fastMainProgram: aName [
-	"
-     PROGRAM demo
-     END"
-
-	^fastModel newProgramMain 
-		name: aName ; 
-		statementBlock: (self fastStatementBlock: #()) ; 
-		famix: (self famixMainProgram: aName) ;
-		yourself.
-
-]
-
-{ #category : 'running' }
 CRFFBindingCleanerTest >> fastRealLiteral: value [
 	^fastModel newRealLiteral
 		primitiveValue: value ;
-		yourself
-]
-
-{ #category : 'running' }
-CRFFBindingCleanerTest >> fastScalarVariable: aName [
-	^fastModel newScalarVariable
-		name: aName ;
-		famix: (self famixScalarVariable: aName)
 		yourself
 ]
 
@@ -135,13 +113,16 @@ CRFFBindingCleanerTest >> fastStatementBlock: aCollection [
 		yourself
 ]
 
-{ #category : 'running' }
-CRFFBindingCleanerTest >> fastSubroutine: aName [
+{ #category : 'entity-creation' }
+CRFFBindingCleanerTest >> mainProgram: aName [
+	"
+     PROGRAM demo
+     END"
 
-	^fastModel newSubroutine
-		name: aName ;
-		statementBlock: (self fastStatementBlock: #()) ;
-		famix: (self famixSubroutine: aName) ;
+	^fastModel newProgramMain 
+		name: aName ; 
+		statementBlock: (self fastStatementBlock: #()) ; 
+		famix: (self famixMainProgram: aName) ;
 		yourself.
 
 ]
@@ -194,6 +175,14 @@ CRFFBindingCleanerTest >> programWithProcedureInvoked [
 
 ]
 
+{ #category : 'entity-creation' }
+CRFFBindingCleanerTest >> scalarVariable: aName [
+	^fastModel newScalarVariable
+		name: aName ;
+		famix: (self famixScalarVariable: aName)
+		yourself
+]
+
 { #category : 'running' }
 CRFFBindingCleanerTest >> setUp [
 
@@ -206,6 +195,17 @@ CRFFBindingCleanerTest >> setUp [
 
 	nbEntitiesToTest := 0.
 	entitiesToTest := WeakArray new: 5
+]
+
+{ #category : 'entity-creation' }
+CRFFBindingCleanerTest >> subroutine: aName [
+
+	^fastModel newSubroutine
+		name: aName ;
+		statementBlock: (self fastStatementBlock: #()) ;
+		famix: (self famixSubroutine: aName) ;
+		yourself.
+
 ]
 
 { #category : 'tests' }
