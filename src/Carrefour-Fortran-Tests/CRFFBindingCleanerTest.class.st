@@ -33,6 +33,16 @@ CRFFBindingCleanerTest >> entityToTest: anEntity [
 ]
 
 { #category : 'famix-entity-creation' }
+CRFFBindingCleanerTest >> famixInvocation: famixCalled from: famixCaller [
+
+	^FamixF77Invocation new 
+		sender: famixCaller ;
+		addCandidate: famixCalled ;
+		yourself
+	
+]
+
+{ #category : 'famix-entity-creation' }
 CRFFBindingCleanerTest >> famixMainProgram: aName [
 	"
      PROGRAM demo
@@ -127,25 +137,27 @@ CRFFBindingCleanerTest >> mainProgram: aName [
 
 ]
 
-{ #category : 'setup' }
+{ #category : 'entity-creation' }
 CRFFBindingCleanerTest >> programFileWithEmptyMain [
 	"
      PROGRAM demo
      END"
 
-	^FASTFortranProgramMain new 
+	| main |
+	main := fastModel newProgramMain
 		name: 'demo' ; 
-		statementBlock: FASTFortranStatementBlock new ; 
-		parentProgramFile: FASTFortranProgramFile new ;
-		famix: (FamixF77PUMain new
+		statementBlock: fastModel newStatementBlock ; 
+		parentProgramFile: fastModel newProgramFile ;
+		famix: (famixModel newPUMain
 			name: 'demo' ;
-			programFile: FamixF77ProgramFile new) ;
+			programFile: famixModel newProgramFile) ;
 		yourself.
 
+	^main parentProgramFile 
 ]
 
-{ #category : 'setup' }
-CRFFBindingCleanerTest >> programWithProcedureInvoked [
+{ #category : 'entity-creation' }
+CRFFBindingCleanerTest >> programFileWithMainAndProcedureInvoked [
 	"
 	subroutine sub
 	end
@@ -155,24 +167,20 @@ CRFFBindingCleanerTest >> programWithProcedureInvoked [
 	end"
 
 
-	| subCallStatement fastProcedures fastMainProgram fastProgramFile |
-	fastProcedures := (self fastSubroutine: 'sub')
-			famix: (FamixF77PUSubroutine new name: 'sub');
-			yourself.
-
-	subCallStatement := self fastCallStatement: 'sub' arguments: #().
+	| fastCallStatement fastSubroutine fastProgramFile |
+	fastSubroutine := self subroutine: 'sub'.
 	
-	fastMainProgram := self programFileWithEmptyMain.
-	fastMainProgram statementBlock addStatement: subCallStatement.
+	fastProgramFile := self programFileWithEmptyMain.
+	fastProgramFile addProgramUnit: fastSubroutine.
 
-	subCallStatement  famix: (FamixF77Invocation new 
-		sender: fastMainProgram famix;
-		addCandidate: fastProcedures famix;
-		yourself
-	).
+	fastCallStatement := self fastCallStatement: 'sub' arguments: #().
+	fastCallStatement  famix:
+		(self 
+			famixInvocation: (famixModel entityNamed: 'sub')
+			from: (famixModel entityNamed: 'demo')).
+	(fastModel allWithType:FASTFortranProgramMain) anyOne statementBlock addStatement: fastCallStatement.
 
-	fastProgramFile programUnit: { fastProcedures . fastMainProgram }.
-
+	^fastProgramFile
 ]
 
 { #category : 'entity-creation' }
