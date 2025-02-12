@@ -14,12 +14,21 @@ Class {
 
 { #category : 'asserting' }
 CRFFBindingCleanerTest >> assertEntitiesFreed [
-	
-	fastModel := nil.
+
 	Smalltalk garbageCollect.	
 
 	1 to: nbEntitiesToTest do: [ :i |
 		self assert: (entitiesToTest at: i) equals: nil
+	]
+]
+
+{ #category : 'asserting' }
+CRFFBindingCleanerTest >> assertEntitiesNotFreed [
+
+	self assert: nbEntitiesToTest > 0.
+
+	1 to: nbEntitiesToTest do: [ :i |
+		self assert: (entitiesToTest at: i) isNotNil
 	]
 ]
 
@@ -85,6 +94,14 @@ CRFFBindingCleanerTest >> fastCharacterLiteral: value [
 	^fastModel newCharacterLiteral
 		primitiveValue: value ;
 		yourself
+]
+
+{ #category : 'running' }
+CRFFBindingCleanerTest >> fastEntityNamed: aName [
+
+	^fastModel
+		detect: [ :e | (e class usesFamixTrait: FASTTNamedEntity) and: [ e name = aName ] ]
+		ifNone: [ self fail: 'FAST entity named: ' , aName , ' not found' ]
 ]
 
 { #category : 'fast-entity-creation' }
@@ -219,8 +236,9 @@ CRFFBindingCleanerTest >> subroutine: aName [
 { #category : 'tests' }
 CRFFBindingCleanerTest >> testClearMainProgramBinding [
 
-	self entityToTest: (self fastMainProgram: 'blah').
+	self entityToTest: (self mainProgram: 'blah').
 
+	self assertEntitiesNotFreed.
 	cleanerVisitor cleanModel: fastModel.
 	
 	self assertEntitiesFreed
@@ -230,8 +248,22 @@ CRFFBindingCleanerTest >> testClearMainProgramBinding [
 CRFFBindingCleanerTest >> testClearProgramFileWithMain [
 
 	self entityToTest: (self programFileWithEmptyMain).
-	self entityToTest: (entitiesToTest first parentProgramFile).
+	self entityToTest: (self fastEntityNamed: 'demo').
 
+	self assertEntitiesNotFreed.
+	cleanerVisitor cleanModel: fastModel.
+	
+	self assertEntitiesFreed
+]
+
+{ #category : 'tests' }
+CRFFBindingCleanerTest >> testClearProgramFileWithMainAndSubroutine [
+
+	self entityToTest: (self programFileWithMainAndProcedureInvoked).
+	self entityToTest: (self fastEntityNamed: 'demo').
+	self entityToTest: (self fastEntityNamed: 'sub').
+
+	self assertEntitiesNotFreed.
 	cleanerVisitor cleanModel: fastModel.
 	
 	self assertEntitiesFreed
