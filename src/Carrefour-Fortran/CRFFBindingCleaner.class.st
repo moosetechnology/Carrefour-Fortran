@@ -72,6 +72,15 @@ CRFFBindingCleaner >> visitFASTFortranModel: aFASTFortranModel [
 ]
 
 { #category : 'visiting - programUnits' }
+CRFFBindingCleaner >> visitFASTFortranProgramFile: aFASTFortranProgramFile [
+
+	aFASTFortranProgramFile famix: nil.
+
+	super visitFASTFortranProgramFile: aFASTFortranProgramFile
+
+]
+
+{ #category : 'visiting - programUnits' }
 CRFFBindingCleaner >> visitFASTFortranProgramMain: aFASTFortranProgramMain [
 
 	aFASTFortranProgramMain famix: nil.
