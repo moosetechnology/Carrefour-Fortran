@@ -32,7 +32,7 @@ CRFFBindingCleanerTest >> entityToTest: anEntity [
 	entitiesToTest at: nbEntitiesToTest put: anEntity 
 ]
 
-{ #category : 'running' }
+{ #category : 'famix-entity-creation' }
 CRFFBindingCleanerTest >> famixMainProgram: aName [
 	"
      PROGRAM demo
@@ -44,14 +44,14 @@ CRFFBindingCleanerTest >> famixMainProgram: aName [
 
 ]
 
-{ #category : 'running' }
+{ #category : 'famix-entity-creation' }
 CRFFBindingCleanerTest >> famixScalarVariable: aName [
 	^famixModel newScalarVariable
 		name: aName ;
 		yourself
 ]
 
-{ #category : 'running' }
+{ #category : 'famix-entity-creation' }
 CRFFBindingCleanerTest >> famixSubroutine: aName [
 
 	^famixModel newPUSubroutine
@@ -60,7 +60,7 @@ CRFFBindingCleanerTest >> famixSubroutine: aName [
 
 ]
 
-{ #category : 'running' }
+{ #category : 'fast-entity-creation' }
 CRFFBindingCleanerTest >> fastCallStatement: aName arguments: aCollection [	
 	"end position is approximate, test should adjust if a real value is needed"
 
@@ -70,34 +70,34 @@ CRFFBindingCleanerTest >> fastCallStatement: aName arguments: aCollection [
 		yourself
 ]
 
-{ #category : 'running' }
+{ #category : 'fast-entity-creation' }
 CRFFBindingCleanerTest >> fastCharacterLiteral: value [
 	^fastModel newCharacterLiteral
 		primitiveValue: value ;
 		yourself
 ]
 
-{ #category : 'running' }
+{ #category : 'fast-entity-creation' }
 CRFFBindingCleanerTest >> fastIntegerLiteral: value [
 	^fastModel newIntegerLiteral
 		primitiveValue: value ;
 		yourself
 ]
 
-{ #category : 'running' }
+{ #category : 'fast-entity-creation' }
 CRFFBindingCleanerTest >> fastRealLiteral: value [
 	^fastModel newRealLiteral
 		primitiveValue: value ;
 		yourself
 ]
 
-{ #category : 'running' }
+{ #category : 'fast-entity-creation' }
 CRFFBindingCleanerTest >> fastSimpleExpression: description [
 
 	description ifNil: [ ^nil ].
 	description isInteger ifTrue: [ ^self fastIntegerLiteral: description asString ].
 	description isFloat ifTrue: [ ^self fastRealLiteral: description asString ].
-	description isSymbol ifTrue: [ ^self fastScalarVariable: description asString ].
+	description isSymbol ifTrue: [ ^self scalarVariable: description asString ].
 	description isString ifTrue: [ ^self fastCharacterLiteral: description asString ].
 	description isMooseEntity ifTrue: [ ^description ].
 
@@ -105,7 +105,7 @@ CRFFBindingCleanerTest >> fastSimpleExpression: description [
 	
 ]
 
-{ #category : 'running' }
+{ #category : 'fast-entity-creation' }
 CRFFBindingCleanerTest >> fastStatementBlock: aCollection [
 
 	^fastModel newStatementBlock
