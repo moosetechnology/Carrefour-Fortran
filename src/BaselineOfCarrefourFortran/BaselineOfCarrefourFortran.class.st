@@ -12,6 +12,7 @@ BaselineOfCarrefourFortran >> baseline: spec [
 		for: #common
 		do: [ spec blessing: #baseline.
 			spec description: 'Binding FAST and Famix for Fortran'.
+			spec repository: 'github://moosetechnology/Carrefour-Fortran'.
 			self defineDependencies: spec.
 			self definePackages: spec.
 			self defineGroups: spec ]
