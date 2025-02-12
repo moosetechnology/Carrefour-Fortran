@@ -36,7 +36,7 @@ BaselineOfCarrefourFortran >> defineGroups: spec [
 	
 	spec
 		group: 'core' with: #( 'Carrefour-Fortran-Model' 'Carrefour-Fortran' );
-		group: 'all' with:  #( 'core' 'Carrefour-Fortran-Tests' );
+		group: 'all' with:  #( 'core' 'Carrefour-Fortran-Tests' 'Carrefour-Fortran-Model-Generator' );
 		group: 'default' with: #('core')
 ]
 
