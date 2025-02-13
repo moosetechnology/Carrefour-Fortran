@@ -92,17 +92,21 @@ CRFFortranProgramUnitBinderVisitor >> visitCharacterLiteralNode: aFASTFortranCha
 
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
-
-	| famix |
 	
-	"aFASTFortranAssignmentStatement variable accept: self.
-	aFASTFortranAssignmentStatement expression accept: self."
+	aFASTFortranAssignmentStatement variable isFieldAccess
+		ifTrue: [ 
+			aFASTFortranAssignmentStatement variable accept: self.
+			aFASTFortranAssignmentStatement expression accept: self.
+		]
+		ifFalse: [ | famix |
+			famix := self 
+				childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
 
-	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
-	self assert: (famix size = 1).
-	aFASTFortranAssignmentStatement famixVariable: famix anyOne.
+			self assert: (famix size = 1).
+			aFASTFortranAssignmentStatement famixVariable: famix anyOne.
 
-	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
+			super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
+	]
 ]
 
 { #category : 'visiting - statements' }
