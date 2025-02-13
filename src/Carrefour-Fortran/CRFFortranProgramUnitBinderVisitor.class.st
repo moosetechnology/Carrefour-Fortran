@@ -24,7 +24,7 @@ CRFFortranProgramUnitBinderVisitor >> childrenEntities: aFamixClass named: aName
 	"note that famixEntity's 'children' include the famixEntity itself"
 
 	^(famixEntity allToScope: aFamixClass)
-		select: [ :each | each name = aName ]
+		select: [ :each | each name asLowercase = aName asLowercase ]
 ]
 
 { #category : 'search famix' }
