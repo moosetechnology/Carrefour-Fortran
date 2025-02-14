@@ -6,6 +6,33 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+CRFFBindWithVariousConstructionsTest >> testAssignmentWithDeclaredPointerVariableAndExpressionBothFieldAccess [
+
+	| entities fmx |
+
+	self skip: #TODO.
+
+	self
+		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"./srcCodeOrigin.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   pointeur var.VARSEG","span":"(2:1)-(2:25)","tag":"comment"},{"anno":[],"comment":"@_   pointeur expr.EXPRSEG","span":"(3:1)-(3:27)","tag":"comment"},{"anno":[],"label":null,"span":"(4:7)-(4:35)","statement":{"anno":[],"expression":{"anno":[],"expression":{"anno":[],"span":"(4:22)-(4:25)","tag":"value","value":{"contents":"expr","tag":"variable"}},"field":{"anno":[],"span":"(4:27)-(4:35)","tag":"value","value":{"contents":"exprfield","tag":"variable"}},"span":"(4:22)-(4:35)","tag":"deref"},"span":"(4:7)-(4:35)","tag":"assign_expression","target":{"anno":[],"expression":{"anno":[],"span":"(4:7)-(4:9)","tag":"value","value":{"contents":"var","tag":"variable"}},"field":{"anno":[],"span":"(4:11)-(4:18)","tag":"value","value":{"contents":"varfield","tag":"variable"}},"span":"(4:7)-(4:18)","tag":"deref"}},"tag":"statement"}],"name":"blah","options":[null,null],"span":"(1:7)-(5:9)","subprograms":null,"tag":"subroutine"}]}'
+		forCode: 
+'      subroutine blah
+c@_   pointeur var.VARSEG
+c@_   pointeur expr.EXPRSEG
+      var.varfield = expr.exprfield
+      end
+'.
+
+	(famixModel entityNamed: 'blah') bindFastModel: fastModel.
+
+	entities := famixModel allWithType: FamixF77PUSubroutine.
+
+	self assert: entities size equals: 1.
+	fmx := entities anyOne.
+
+	self assert: fmx fast isNotNil.
+]
+
+{ #category : 'as yet unclassified' }
 CRFFBindWithVariousConstructionsTest >> testAssignmentWithVariableAndExpressionBothFieldAccess [
 
 	| entities fmx |
