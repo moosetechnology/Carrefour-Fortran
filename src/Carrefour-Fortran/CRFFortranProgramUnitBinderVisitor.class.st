@@ -198,6 +198,23 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranProgramMain: aFASTFortranP
 ]
 
 { #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranProgramUnit: aFASTFortranProgramUnit [
+
+	self visitFASTFortranTWithDeclarations: aFASTFortranProgramUnit.
+	super visitFASTFortranProgramUnit: aFASTFortranProgramUnit
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranScalarVariable: aFASTFortranScalarVariable [
+	| famix |
+	famix := self 
+				childrenStructuralEntitiesNamed: aFASTFortranScalarVariable name.
+
+	self assert: (famix size = 1).
+	aFASTFortranScalarVariable famixVariable: famix anyOne.
+]
+
+{ #category : 'visiting - programUnits' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSubroutine [
 
 	| famix |
