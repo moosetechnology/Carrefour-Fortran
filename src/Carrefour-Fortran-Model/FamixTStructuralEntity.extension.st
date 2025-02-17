@@ -41,3 +41,21 @@ FamixTStructuralEntity >> fastDeclaration: anObject [
 		self attributeAt: #fastDeclaration put: anObject.
 		anObject famixDeclaration: self ]
 ]
+
+{ #category : '*Carrefour-Fortran-Model-accessing' }
+FamixTStructuralEntity >> fastUses [
+	"Relation named: #fastUses type: #FASTFortranScalarVariable opposite: #famixVariable"
+
+	<generated>
+	<derived>
+	<FMProperty: #fastUses type: #FASTFortranScalarVariable opposite: #famixVariable>
+	<package: #'Carrefour-Fortran-Model'>
+	^ self attributeAt: #fastUses ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
+]
+
+{ #category : '*Carrefour-Fortran-Model-accessing' }
+FamixTStructuralEntity >> fastUses: anObject [
+
+	<generated>
+	self fastUses value: anObject
+]
