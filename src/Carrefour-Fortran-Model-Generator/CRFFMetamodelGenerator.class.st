@@ -6,7 +6,6 @@ Class {
 		'fastProgramUnit',
 		'fastAssignment',
 		'fastScalarVariable',
-		'famixStructuralEntity',
 		'famixParameter',
 		'fastVariableDeclarator',
 		'famixStatementFunction',
@@ -18,7 +17,8 @@ Class {
 		'fastExternalStatement',
 		'famixProgramFile',
 		'fastProgramFile',
-		'fastTWithArguments'
+		'fastTWithArguments',
+		'famixTStructuralEntity'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -58,7 +58,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	famixProgramFile := self remoteEntity: #ProgramFile withPrefix: #FamixF77.
 	famixProgramUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
 	famixStatementFunction := self remoteEntity: #StatementFunction withPrefix: #FamixF77.
-	famixStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
+	famixTStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
 
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
@@ -81,10 +81,10 @@ CRFFMetamodelGenerator >> defineRelations [
 	
 	(famixProgramFile property: #fast) - (fastProgramFile property: #famix).
 
-	(famixStructuralEntity property: #fastDeclaration) - (fastVariableDeclarator property: #famixDeclaration).
-	(famixStructuralEntity property: #fastAssignment) -* (fastAssignment property: #famixVariable).
+	(famixTStructuralEntity property: #fastDeclaration) - (fastVariableDeclarator property: #famixDeclaration).
+	(famixTStructuralEntity property: #fastUses) -* (fastScalarVariable property: #famixVariable).
 	"Parameters may have 2 FAST entities: FASTProgramUnit>>#parameters and DeclarationStatement"
-	(famixParameter property: #fastParameter) - (fastScalarVariable property: #famixParameter).
+	"(famixParameter property: #fastParameter) - (fastScalarVariable property: #famixParameter)"
 
 	(famixStatementFunction property: #fast) - (fastStatementFunction property: #famix).
 	(famixFunction property: #fast) - (fastFunction property: #famix).

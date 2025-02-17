@@ -26,14 +26,11 @@ CRFFAbstractBindTest >> createFamixModel: jsonSource [
 	iastModel := JsonToIASTVisitor new
 		visitProgramFile: (NeoJSONReader fromString: jsonSource).
 
-	visitor := IASTToFamixFortranVisitor new.
+	visitor := IASTToFamixFortranVisitor new model: famixModel.
 	iastModel accept: visitor.
-	famixModel := visitor model.
 
 	(FamixEsopeResolver on: famixModel)
 		resolve.
-
-	^famixModel
 ]
 
 { #category : 'running' }
@@ -49,4 +46,17 @@ CRFFAbstractBindTest >> createModels: jsonSource forCode: fortranCode [
 CRFFAbstractBindTest >> jsonImporterClass [
 
 	^FASTFortranJsonVisitor
+]
+
+{ #category : 'running' }
+CRFFAbstractBindTest >> newFamixModel [
+
+	^ FamixF77Model new
+]
+
+{ #category : 'running' }
+CRFFAbstractBindTest >> setUp [
+	super setUp.
+
+	famixModel := self newFamixModel.
 ]
