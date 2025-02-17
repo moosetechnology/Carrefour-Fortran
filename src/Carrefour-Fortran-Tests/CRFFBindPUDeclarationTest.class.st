@@ -10,7 +10,7 @@ CRFFBindPUDeclarationTest >> testPUExternalFunction [
 
 	| entities fmx fast |
 	self
-		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"/Users/sow/Documents/Pharo/images/M12_241203_PairYC/srcCode.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:20)","statement":{"anno":[],"span":"(2:7)-(2:20)","tag":"external","vars":{"anno":[],"list":[{"anno":[],"span":"(2:16)-(2:20)","tag":"value","value":{"contents":"myfct","tag":"variable"}}],"span":"(2:16)-(2:20)"}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'
+		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"./srcCode.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:20)","statement":{"anno":[],"span":"(2:7)-(2:20)","tag":"external","vars":{"anno":[],"list":[{"anno":[],"span":"(2:16)-(2:20)","tag":"value","value":{"contents":"myfct","tag":"variable"}}],"span":"(2:16)-(2:20)"}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'
 		forCode:
 '      program main
       external myfct
@@ -36,7 +36,7 @@ CRFFBindPUDeclarationTest >> testPUFunctionDeclaration [
 
 	| entities fmx fast |
 	self
-		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"/home/anquetil/Pharo/images/crf-fortran/srcCode.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[],"name":"hello","result":null,"span":"(1:7)-(2:9)","subprograms":null,"tag":"function","type":{"anno":[],"base_type":"integer","selector":null,"span":"(1:7)-(1:13)"}}]}'
+		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"./srcCodeOrigin.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[],"name":"hello","result":null,"span":"(1:7)-(2:9)","subprograms":null,"tag":"function","type":{"anno":[],"base_type":"integer","selector":null,"span":"(1:7)-(1:13)"}}]}'
 		forCode:
 '      integer function hello()
       end
@@ -61,7 +61,7 @@ CRFFBindPUDeclarationTest >> testPUMainDeclaration [
 
 	| entities fmx fast |
 	self
-		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"/home/anquetil/Pharo/images/crf-fortran/srcCode.f"},"program_units":[{"anno":[],"blocks":[],"name":"main","span":"(2:7)-(3:9)","subprograms":null,"tag":"main"}]}'
+		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"./srcCodeOrigin.f"},"program_units":[{"anno":[],"blocks":[],"name":"main","span":"(2:7)-(3:9)","subprograms":null,"tag":"main"}]}'
 		forCode:
 '      program main
       end
@@ -86,7 +86,7 @@ CRFFBindPUDeclarationTest >> testPUSubroutineDeclaration [
 
 	| entities fmx fast |
 	self
-		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"/home/anquetil/Pharo/images/crf-fortran/srcCode.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[],"name":"blah","options":[null,null],"span":"(1:7)-(2:9)","subprograms":null,"tag":"subroutine"}]}'
+		createModels: '{"meta":{"miVersion":"fortran77","miFilename":"./srcCodeOrigin.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[],"name":"blah","options":[null,null],"span":"(1:7)-(2:9)","subprograms":null,"tag":"subroutine"}]}'
 		forCode:
 '      subroutine blah
       end

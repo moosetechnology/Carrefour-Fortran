@@ -24,13 +24,33 @@ CRFFortranProgramUnitBinderVisitor >> childrenEntities: aFamixClass named: aName
 	"note that famixEntity's 'children' include the famixEntity itself"
 
 	^(famixEntity allToScope: aFamixClass)
-		select: [ :each | each name = aName ]
+		select: [ :each | each name asLowercase = aName asLowercase ]
 ]
 
 { #category : 'search famix' }
 CRFFortranProgramUnitBinderVisitor >> childrenStructuralEntitiesNamed: aName [
-	^(self childrenEntities: FamixF77Variable named: aName)
-		ifEmpty: [ self childrenEntities: FamixF77Parameter named: aName ]
+	(self childrenEntities: FamixF77Variable named: aName)
+		ifNotEmpty: [ :entities | ^entities ].
+
+	(self childrenEntities: FamixF77Parameter named: aName)
+		ifNotEmpty: [ :entities | ^entities ].
+
+	"(self childrenEntities: FamixF77ExternalDeclaration named: aName)
+		ifNotEmpty: [ :entities | ^entities ]."
+
+	"Once we are here, that means we have to look in segment
+	- it can be a segment attribute (in the current programUnit or in includedFile)
+	- or it can be a localVariable from includedFile
+	"
+	((famixEntity allLocalVariables)
+		select: [ :localVariable | localVariable name asLowercase = aName asLowercase ]
+	) ifNotEmpty: [ :entities | ^entities ].
+		
+	((famixEntity allTypes)
+		select: [ :type | type name asLowercase = aName asLowercase ]
+	) ifNotEmpty: [ :entities | ^entities ].
+	
+	^ #()
 ]
 
 { #category : 'private' }
@@ -72,17 +92,21 @@ CRFFortranProgramUnitBinderVisitor >> visitCharacterLiteralNode: aFASTFortranCha
 
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
-
-	| famix |
 	
-	"aFASTFortranAssignmentStatement variable accept: self.
-	aFASTFortranAssignmentStatement expression accept: self."
+	aFASTFortranAssignmentStatement variable isFieldAccess
+		ifTrue: [ 
+			aFASTFortranAssignmentStatement variable accept: self.
+			aFASTFortranAssignmentStatement expression accept: self.
+		]
+		ifFalse: [ | famix |
+			famix := self 
+				childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
 
-	famix := self childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
-	self assert: (famix size = 1).
-	aFASTFortranAssignmentStatement famixVariable: famix anyOne.
+			self assert: (famix size = 1).
+			aFASTFortranAssignmentStatement famixVariable: famix anyOne.
 
-	super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
+			super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
+	]
 ]
 
 { #category : 'visiting - statements' }
