@@ -9,7 +9,7 @@ FamixF77ProgramUnit >> bindFASTModel [
 		metamodel: CRFFModel metamodel;
 		yourself.
 
-	self bindFastModel: fastModel .
+	self bindFastModel: fastModel.
 
 	^ fastModel
 ]
@@ -27,4 +27,10 @@ FamixF77ProgramUnit >> importFASTModel [
 
 	^FASTFortranImporter onSourceString: self sourceAnchor sourceText
 
+]
+
+{ #category : '*Carrefour-Fortran' }
+FamixF77ProgramUnit >> isIncludedFile [
+
+	^false
 ]
