@@ -92,21 +92,8 @@ CRFFortranProgramUnitBinderVisitor >> visitCharacterLiteralNode: aFASTFortranCha
 
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
-	
-	aFASTFortranAssignmentStatement variable isFieldAccess
-		ifTrue: [ 
-			aFASTFortranAssignmentStatement variable accept: self.
-			aFASTFortranAssignmentStatement expression accept: self.
-		]
-		ifFalse: [ | famix |
-			famix := self 
-				childrenStructuralEntitiesNamed: aFASTFortranAssignmentStatement variable name.
 
-			self assert: (famix size = 1).
-			aFASTFortranAssignmentStatement famixVariable: famix anyOne.
-
-			super visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement
-	]
+	self visitFASTFortranTStatement: aFASTFortranAssignmentStatement
 ]
 
 { #category : 'visiting - statements' }
@@ -148,20 +135,18 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranExternalStatement: aFASTEx
 
 { #category : 'visiting' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFieldAccess: aFASTFortranFieldAccess [
-	| famix segment |
-	famix := self childrenStructuralEntitiesNamed: aFASTFortranFieldAccess pointer name.
-	self assert: (famix size = 1).
-	famix anyOne fast: aFASTFortranFieldAccess pointer.
 
-	segment := famix anyOne declaredType.
+	| segment |
+	aFASTFortranFieldAccess pointer accept: self.
+
+	segment := aFASTFortranFieldAccess pointer famixVariable declaredType.
 	self assert: (segment isNotNil).
 
 	segment attributes 
-		detect: [ :attribute |
-			attribute name = aFASTFortranFieldAccess field name
-			and: [ attribute fast isNil ] ]
-		ifOne: [ :found | found fast: aFASTFortranFieldAccess field ]
-		ifNone: [  ]
+		detect: [ :famixAttribute |
+			famixAttribute name asLowercase = aFASTFortranFieldAccess field name asLowercase
+		]
+		ifOne: [ :famixAttribute | aFASTFortranFieldAccess field famixVariable: famixAttribute ]
 ]
 
 { #category : 'visiting - programUnits' }
