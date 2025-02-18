@@ -146,7 +146,16 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFieldAccess: aFASTFortranF
 		detect: [ :famixAttribute |
 			famixAttribute name asLowercase = aFASTFortranFieldAccess field name asLowercase
 		]
-		ifOne: [ :famixAttribute | aFASTFortranFieldAccess field famixVariable: famixAttribute ]
+		ifOne: [ :famixAttribute |
+			aFASTFortranFieldAccess field isArrayVariable
+				ifTrue: [ 
+					aFASTFortranFieldAccess field 
+						indices do: [ :indice | indice accept: self ]
+				] 
+				ifFalse: [ 
+					aFASTFortranFieldAccess field famixVariable: famixAttribute 
+				]
+		]
 ]
 
 { #category : 'visiting - programUnits' }
