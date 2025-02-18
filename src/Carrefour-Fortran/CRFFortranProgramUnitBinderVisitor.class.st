@@ -35,8 +35,8 @@ CRFFortranProgramUnitBinderVisitor >> childrenStructuralEntitiesNamed: aName [
 	(self childrenEntities: FamixF77Parameter named: aName)
 		ifNotEmpty: [ :entities | ^entities ].
 
-	"(self childrenEntities: FamixF77ExternalDeclaration named: aName)
-		ifNotEmpty: [ :entities | ^entities ]."
+	(self childrenEntities: FamixF77ExternalDeclaration named: aName)
+		ifNotEmpty: [ :entities | ^entities ].
 
 	"Once we are here, that means we have to look in segment
 	- it can be a segment attribute (in the current programUnit or in includedFile)
@@ -230,7 +230,9 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSu
 
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
-	"A declarationStatement can be for a local variable or a Parameter"
+	"A declarationStatement can be for a local variable or a Parameter
+	warning: some declaration are actualy for external procedure
+	"
 
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
