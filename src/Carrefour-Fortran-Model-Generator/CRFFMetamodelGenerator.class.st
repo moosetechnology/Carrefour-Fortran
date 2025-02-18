@@ -18,7 +18,8 @@ Class {
 		'famixProgramFile',
 		'fastProgramFile',
 		'fastTWithArguments',
-		'famixTStructuralEntity'
+		'famixTStructuralEntity',
+		'fastArrayVariable'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -61,6 +62,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	famixTStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
 
+	fastArrayVariable := self remoteEntity: #ArrayVariable withPrefix: #FASTFortran.
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
 	fastExternalStatement := self remoteEntity: #ExternalStatement withPrefix: #FASTFortran.
 	fastFunction := self remoteEntity: #Function withPrefix: #FASTFortran.
@@ -83,6 +85,7 @@ CRFFMetamodelGenerator >> defineRelations [
 
 	(famixTStructuralEntity property: #fastDeclaration) - (fastVariableDeclarator property: #famixDeclaration).
 	(famixTStructuralEntity property: #fastUses) -* (fastScalarVariable property: #famixVariable).
+	(famixTStructuralEntity property: #fastUses) -* (fastArrayVariable property: #famixVariable).
 	"Parameters may have 2 FAST entities: FASTProgramUnit>>#parameters and DeclarationStatement"
 	"(famixParameter property: #fastParameter) - (fastScalarVariable property: #famixParameter)"
 
