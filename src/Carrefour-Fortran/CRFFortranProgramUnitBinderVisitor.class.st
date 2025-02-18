@@ -230,7 +230,9 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSu
 
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
-	"A declarationStatement can be for a local variable or a Parameter"
+	"A declarationStatement can be for a local variable or a Parameter
+	warning: some declaration are actualy for external procedure
+	"
 
 	aFASTFortranDeclarationStatement declarators
 		do: [ :decl || famix |
