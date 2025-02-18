@@ -164,13 +164,13 @@ CRFFBindingCleanerTest >> programFileWithEmptyMain [
 	main := fastModel newProgramMain
 		name: 'demo' ; 
 		statementBlock: fastModel newStatementBlock ; 
-		parentProgramFile: fastModel newProgramFile ;
+		programFile: fastModel newProgramFile ;
 		famix: (famixModel newPUMain
 			name: 'demo' ;
 			programFile: famixModel newProgramFile) ;
 		yourself.
 
-	^main parentProgramFile 
+	^main programFile 
 ]
 
 { #category : 'entity-creation' }
