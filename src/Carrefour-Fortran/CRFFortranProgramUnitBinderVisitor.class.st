@@ -50,6 +50,11 @@ CRFFortranProgramUnitBinderVisitor >> childrenStructuralEntitiesNamed: aName [
 		select: [ :type | type name asLowercase = aName asLowercase ]
 	) ifNotEmpty: [ :entities | ^entities ].
 	
+	"here we can assume we are in a function and we return value at the variable (same as function name)"
+	self flag: '#FIXME'.
+	"(self childrenEntities: FamixF77PUFunction named: aName)
+		ifNotEmpty: [ :entities | ^entities ]."
+	
 	^ #()
 ]
 
@@ -219,8 +224,9 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranScalarVariable: aFASTFortr
 	famix := self 
 				childrenStructuralEntitiesNamed: aFASTFortranScalarVariable name.
 
-	self assert: (famix size = 1).
-	aFASTFortranScalarVariable famixVariable: famix anyOne.
+	(famix size = 1) ifTrue: [ 
+		aFASTFortranScalarVariable famixVariable: famix anyOne 
+	].
 ]
 
 { #category : 'visiting - programUnits' }
