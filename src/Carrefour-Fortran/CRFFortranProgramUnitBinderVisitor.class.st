@@ -183,9 +183,9 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionCall: aFASTFortran
 	self famixEntity outgoingInvocations
 		detect: [ :invok |
 			(invok signature = aFASTFortranFunctionCall name)
-			and: [ invok fast isNil ] ]
-		ifOne: [ :found | found fast: aFASTFortranFunctionCall ]
-		ifNone: [ ].
+				and: [ invok fast isNil ] 
+		]
+		ifOne: [ :found | found fast: aFASTFortranFunctionCall ].
 
 	super visitFASTFortranFunctionCall: aFASTFortranFunctionCall 
 ]
