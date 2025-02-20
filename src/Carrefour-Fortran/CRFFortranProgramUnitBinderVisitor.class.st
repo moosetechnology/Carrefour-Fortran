@@ -12,7 +12,7 @@ Class {
 CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixEntity [
 	
 	self famixEntity: aFamixEntity.
-	fastModel metamodel: CRFFModel metamodel.
+	fastModel setMetamodelToCarrefour.
 
 	(self rootEntitiesIn: fastModel)
 		do: [ :rootEntity | rootEntity accept: self ].
@@ -50,11 +50,6 @@ CRFFortranProgramUnitBinderVisitor >> childrenStructuralEntitiesNamed: aName [
 		select: [ :type | type name asLowercase = aName asLowercase ]
 	) ifNotEmpty: [ :entities | ^entities ].
 	
-	"here we can assume we are in a function and we return value at the variable (same as function name)"
-	self flag: '#FIXME'.
-	"(self childrenEntities: FamixF77PUFunction named: aName)
-		ifNotEmpty: [ :entities | ^entities ]."
-	
 	^ #()
 ]
 
@@ -76,12 +71,6 @@ CRFFortranProgramUnitBinderVisitor >> famixEntity: anObject [
 	famixEntity := anObject
 ]
 
-{ #category : 'accessing' }
-CRFFortranProgramUnitBinderVisitor >> fastMetamodel [
-
-	^CRFFModel metamodel
-]
-
 { #category : 'search famix' }
 CRFFortranProgramUnitBinderVisitor >> rootEntitiesIn: fastModel [
 
@@ -98,7 +87,19 @@ CRFFortranProgramUnitBinderVisitor >> visitCharacterLiteralNode: aFASTFortranCha
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
 
+	"avoiding visiting twice
+	self visitFASTFortranTAssignment: aFASTFortranAssignmentStatement."
 	self visitFASTFortranTStatement: aFASTFortranAssignmentStatement
+]
+
+{ #category : 'visiting - expressions' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranBinaryExpression: aFASTFortranBinaryExpression [
+
+	"avoiding viditing twice:
+	self visitFASTFortranTExpression: aFASTFortranBinaryExpression.
+	self visitFASTFortranTFortranBinaryExpression: aFASTFortranBinaryExpression."
+	aFASTFortranBinaryExpression leftOperand accept: self.
+	aFASTFortranBinaryExpression rightOperand accept: self
 ]
 
 { #category : 'visiting - statements' }
@@ -112,6 +113,33 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranCallStatement: aFASTFortra
 		ifNone: [ ].
 
 	super visitFASTFortranCallStatement: aFASTFortranCallStatement 
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDimensionStatement: aFASTFortranDimensionStatement [
+
+	aFASTFortranDimensionStatement declarators do: [ :declarator |
+		declarator accept: self ].
+	"avoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranDimensionStatement"
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDoStatement: aFASTFortranDoStatement [
+
+	"visitFASTFortranTStatement: would do the same as the other 2 lines:
+	self visitFASTFortranTStatement: aFASTFortranDoStatement."
+	aFASTFortranDoStatement loopControl accept: self.
+	aFASTFortranDoStatement statementBlock accept: self
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranEquivalenceStatement: aFASTFortranEquivalenceStatement [
+
+	"Avaoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranEquivalenceStatement."
+	aFASTFortranEquivalenceStatement variableGroups do: [ :group |
+		group accept: self ]
 ]
 
 { #category : 'visiting - statements' }
@@ -187,7 +215,9 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionCall: aFASTFortran
 		]
 		ifOne: [ :found | found fast: aFASTFortranFunctionCall ].
 
-	super visitFASTFortranFunctionCall: aFASTFortranFunctionCall 
+	"super call would visit twice the arguments, so we don't do it:
+	super visitFASTFortranFunctionCall: aFASTFortranFunctionCall "
+	self visitFASTFortranTWithArguments: aFASTFortranFunctionCall
 ]
 
 { #category : 'visiting - statements' }
@@ -195,11 +225,69 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionStatement: aFASTFo
 
 	| famix |
 
-	famix := self childrenEntities: FamixF77StatementFunction named:  aFASTFortranFunctionStatement name.
+	famix := self childrenEntities: FamixF77StatementFunction named: aFASTFortranFunctionStatement name.
+
 	self assert: (famix size = 1).
 	famix anyOne fast: aFASTFortranFunctionStatement.
-		
-	super visitFASTFortranFunctionStatement: aFASTFortranFunctionStatement
+
+	self visitFASTFortranTStatement: aFASTFortranFunctionStatement.
+	"Avoiding visiting twice:
+	self visitFASTFortranTWithParameters: aFASTFortranFunctionStatement"
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionTypeDeclarationStatement: aFASTFortranFunctionTypeDeclarationStatement [
+
+	"Avoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranFunctionTypeDeclarationStatement."
+	aFASTFortranFunctionTypeDeclarationStatement declaredType accept: self.
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranIfBlockStatement: aFASTFortranIfBlockStatement [
+
+	"Avoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranIfBlockStatement."
+	aFASTFortranIfBlockStatement condition accept: self.
+	aFASTFortranIfBlockStatement thenStatementBlock accept: self.
+	aFASTFortranIfBlockStatement elseStatementBlock ifNotNil: [
+		:elseBlock | elseBlock accept: self ]
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranInquireStatement: aFASTFortranInquireStatement [
+
+	aFASTFortranInquireStatement ioParameters do: [ :ioParam |
+		ioParam accept: self ].
+	"Avoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranInquireStatement"
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranIntrinsicStatement: aFASTFortranIntrinsicStatement [
+
+	aFASTFortranIntrinsicStatement variables do: [ :var |
+		var accept: self ].
+	"Avoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranIntrinsicStatement"
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranOpenStatement: aFASTFortranOpenStatement [
+
+	aFASTFortranOpenStatement ioParameters do: [ :ioParam |
+		ioParam accept: self ].
+	"Avoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranOpenStatement"
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranPrintStatement: aFASTFortranPrintStatement [
+	<generated>
+
+	"Avoiding visiting twice:
+	self visitFASTFortranTWithArguments: aFASTFortranPrintStatement."
+	self visitFASTFortranTStatement: aFASTFortranPrintStatement
 ]
 
 { #category : 'visiting - programUnits' }
@@ -216,6 +304,15 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranProgramUnit: aFASTFortranP
 
 	self visitFASTFortranTWithDeclarations: aFASTFortranProgramUnit.
 	super visitFASTFortranProgramUnit: aFASTFortranProgramUnit
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranRewindStatement: aFASTFortranRewindStatement [
+
+	aFASTFortranRewindStatement ioParameters do: [ :ioParam |
+		ioParam accept: self ].
+	"Avoiding visiting twice:
+	self visitFASTFortranTStatement: aFASTFortranRewindStatement"
 ]
 
 { #category : 'visiting - statements' }
@@ -245,18 +342,30 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSu
 
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
-	"A declarationStatement can be for a local variable or a Parameter
-	warning: some declaration are actualy for external procedure
-	"
 
 	aFASTFortranDeclarationStatement declarators
-		do: [ :decl || famix |
-			famix := self childrenStructuralEntitiesNamed: decl name.
-			self assert: (famix size = 1).
-			famix anyOne fastDeclaration: decl
-		].
+		do: [ :decl | decl accept: self ].
 
-	super visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement
+	aFASTFortranDeclarationStatement declaredType accept: self.
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarator: aFASTFortranDeclarator [
+
+	| famix |
+	famix := self childrenStructuralEntitiesNamed: aFASTFortranDeclarator name.
+	self assert: (famix size = 1).
+	famix anyOne fastDeclaration: aFASTFortranDeclarator
+
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranWriteStatement: aFASTFortranWriteStatement [
+	<generated>
+
+	self visitFASTFortranTStatement: aFASTFortranWriteStatement.
+	"Avoiding visiting twice:
+	self visitFASTFortranTWithArguments: aFASTFortranWriteStatement"
 ]
 
 { #category : 'visiting - programUnits' }
