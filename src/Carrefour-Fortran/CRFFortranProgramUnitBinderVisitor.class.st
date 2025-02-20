@@ -110,6 +110,15 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranCallStatement: aFASTFortra
 ]
 
 { #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDoStatement: aFASTFortranDoStatement [
+
+	"visitFASTFortranTStatement: would do the same as the other 2 lines:
+	self visitFASTFortranTStatement: aFASTFortranDoStatement."
+	aFASTFortranDoStatement loopControl accept: self.
+	aFASTFortranDoStatement statementBlock accept: self
+]
+
+{ #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranExternalFunctionDeclarationStatement: aFASTExternalFunctionDeclarationStatement [
 
 	(self childrenEntities: FamixF77ExternalDeclaration named: aFASTExternalFunctionDeclarationStatement name)
@@ -182,7 +191,9 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranFunctionCall: aFASTFortran
 		]
 		ifOne: [ :found | found fast: aFASTFortranFunctionCall ].
 
-	super visitFASTFortranFunctionCall: aFASTFortranFunctionCall 
+	"super call would visit twice the arguments, so we don't do it:
+	super visitFASTFortranFunctionCall: aFASTFortranFunctionCall "
+	self visitFASTFortranTWithArguments: aFASTFortranFunctionCall
 ]
 
 { #category : 'visiting - statements' }
