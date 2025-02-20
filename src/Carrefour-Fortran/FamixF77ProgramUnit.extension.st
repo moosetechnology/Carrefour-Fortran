@@ -25,7 +25,7 @@ FamixF77ProgramUnit >> importFASTModel [
 
 	self assert: self sourceAnchor isNotNil.
 
-	^FASTFortranImporter onSourceString: self sourceAnchor sourceText
+	^self mooseModel fastImporter onSourceString: self sourceAnchor sourceText
 
 ]
 
