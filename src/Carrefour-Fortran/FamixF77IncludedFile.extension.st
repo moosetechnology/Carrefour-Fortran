@@ -22,7 +22,7 @@ FamixF77IncludedFile >> importFASTModel [
 			on: aStream
 	].
 	
-	tempModel := FASTFortranImporter onSourceString: fortranCode.
+	tempModel := self mooseModel fastImporter onSourceString: fortranCode.
 
 	"We do not want a fake subroutine in the model, it is just for convenience for the parser to do its job."
 	tempModel remove: (tempModel allWithType: FASTFortranSubroutine) first.
