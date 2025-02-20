@@ -6,7 +6,7 @@ FamixF77ProgramUnit >> bindFASTModel [
 	self assert: self sourceAnchor isNotNil.
 
 	fastModel := self importFASTModel
-		metamodel: CRFFModel metamodel;
+		setMetamodelToCarrefour ;
 		yourself.
 
 	self bindFastModel: fastModel.

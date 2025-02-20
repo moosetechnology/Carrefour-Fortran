@@ -11,3 +11,9 @@ FASTFortranModel >> carrefourBinderVisitor [
 
 	^ CRFFortranProgramUnitBinderVisitor new
 ]
+
+{ #category : '*Carrefour-Fortran' }
+FASTFortranModel >> setMetamodelToCarrefour [
+
+	self metamodel: CRFFModel metamodel
+]
