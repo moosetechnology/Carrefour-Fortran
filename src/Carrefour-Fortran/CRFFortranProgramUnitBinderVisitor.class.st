@@ -71,12 +71,6 @@ CRFFortranProgramUnitBinderVisitor >> famixEntity: anObject [
 	famixEntity := anObject
 ]
 
-{ #category : 'accessing' }
-CRFFortranProgramUnitBinderVisitor >> fastMetamodel [
-
-	^CRFFModel metamodel
-]
-
 { #category : 'search famix' }
 CRFFortranProgramUnitBinderVisitor >> rootEntitiesIn: fastModel [
 
