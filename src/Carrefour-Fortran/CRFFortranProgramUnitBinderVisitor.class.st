@@ -50,11 +50,6 @@ CRFFortranProgramUnitBinderVisitor >> childrenStructuralEntitiesNamed: aName [
 		select: [ :type | type name asLowercase = aName asLowercase ]
 	) ifNotEmpty: [ :entities | ^entities ].
 	
-	"here we can assume we are in a function and we return value at the variable (same as function name)"
-	self flag: '#FIXME'.
-	"(self childrenEntities: FamixF77PUFunction named: aName)
-		ifNotEmpty: [ :entities | ^entities ]."
-	
 	^ #()
 ]
 
