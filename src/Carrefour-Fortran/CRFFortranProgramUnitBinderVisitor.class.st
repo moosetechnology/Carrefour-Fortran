@@ -12,7 +12,7 @@ Class {
 CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixEntity [
 	
 	self famixEntity: aFamixEntity.
-	fastModel metamodel: CRFFModel metamodel.
+	fastModel setMetamodelToCarrefour.
 
 	(self rootEntitiesIn: fastModel)
 		do: [ :rootEntity | rootEntity accept: self ].
