@@ -245,18 +245,21 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranSubroutine: aFASTFortranSu
 
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement [
-	"A declarationStatement can be for a local variable or a Parameter
-	warning: some declaration are actualy for external procedure
-	"
 
 	aFASTFortranDeclarationStatement declarators
-		do: [ :decl || famix |
-			famix := self childrenStructuralEntitiesNamed: decl name.
-			self assert: (famix size = 1).
-			famix anyOne fastDeclaration: decl
-		].
+		do: [ :decl | decl accept: self ].
 
 	super visitFASTFortranVariableDeclarationStatement: aFASTFortranDeclarationStatement
+]
+
+{ #category : 'visiting - statements' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranVariableDeclarator: aFASTFortranDeclarator [
+
+	| famix |
+	famix := self childrenStructuralEntitiesNamed: aFASTFortranDeclarator name.
+	self assert: (famix size = 1).
+	famix anyOne fastDeclaration: aFASTFortranDeclarator
+
 ]
 
 { #category : 'visiting - programUnits' }
