@@ -2,8 +2,11 @@ Extension { #name : 'FamixF77IncludedFile' }
 
 { #category : '*Carrefour-Fortran' }
 FamixF77IncludedFile >> bindFastModel: fastModel [
-	self flag: '#FIXME: how to deal with includedFile ? '
-	
+
+	self flag: '#FIXME: how to deal with includedFile ? '.
+	fastModel carrefourBinderVisitor 
+		bindFastModel: fastModel
+		toFamixEntity: self
 ]
 
 { #category : '*Carrefour-Fortran' }
@@ -13,7 +16,7 @@ FamixF77IncludedFile >> importFASTModel [
 	self flag: '#FIXME: Do we need to ask for fast model in case of includedFile?'.
 	self assert: self sourceAnchor isNotNil.
 
-	sourceAnchor endLine: sourceAnchor endLine + 1.
+"	sourceAnchor endLine: sourceAnchor endLine + 1."
 
 	fortranCode := String streamContents:  [  :aStream | 
 		FortranProjectImporter new 
