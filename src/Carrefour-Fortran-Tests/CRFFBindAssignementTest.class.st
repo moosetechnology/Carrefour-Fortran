@@ -5,7 +5,7 @@ Class {
 	#package : 'Carrefour-Fortran-Tests'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'tests' }
 CRFFBindAssignementTest >> testAssignementVariableToVariable [
 
 	| entities fmx fast |
@@ -19,27 +19,21 @@ CRFFBindAssignementTest >> testAssignementVariableToVariable [
 
 	(famixModel entityNamed: 'tester') bindFastModel: fastModel.
 
-	entities := famixModel allWithType: FamixF77Variable.
+	entities := famixModel allWithType: FamixF77Access.
 
 	self assert: entities size equals: 2.
 
-	fmx := entities first.
-	fast := fmx fastUses.
+	fmx := entities detect: [:access | access isWrite ].
+	fast := fmx fast.
 
-	self assert: fast size equals: 1.
-	self assert: fast anyOne class equals: FASTFortranScalarVariable.
-	self assert: fast anyOne name equals: fmx name.
+	self assert: fast isNotNil.
+	self assert: fast class equals: FASTFortranAssignmentStatement.
+	self assert: fast variable name equals: fmx variable name.
+
 	
-	fmx := entities second.
-	fast := fmx fastUses.
-
-	self assert: fast size equals: 1.
-	self assert: fast anyOne class equals: FASTFortranScalarVariable.
-	self assert: fast anyOne name equals: fmx name.
-
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'tests' }
 CRFFBindAssignementTest >> testVariableDeclarationReal [
 
 	| entities fmx fast |

@@ -87,9 +87,21 @@ CRFFortranProgramUnitBinderVisitor >> visitCharacterLiteralNode: aFASTFortranCha
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranAssignmentStatement: aFASTFortranAssignmentStatement [
 
-	"avoiding visiting twice
-	self visitFASTFortranTAssignment: aFASTFortranAssignmentStatement."
-	self visitFASTFortranTStatement: aFASTFortranAssignmentStatement
+	self famixEntity accesses
+		detect: [ :access |
+			(access variable name = aFASTFortranAssignmentStatement variable name)
+			and: [ access isWrite
+			and: [ access fast isNil ] ] 
+		]
+		ifOne: [ :found |
+			found fast: aFASTFortranAssignmentStatement.
+			aFASTFortranAssignmentStatement variable famixVariable: found variable
+		]
+	ifNone: [ "trying to bind the variable by some other mean"
+		aFASTFortranAssignmentStatement variable accept: self
+	].
+
+	aFASTFortranAssignmentStatement expression accept: self
 ]
 
 { #category : 'visiting - expressions' }
