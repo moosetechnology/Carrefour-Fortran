@@ -19,7 +19,8 @@ Class {
 		'fastTWithArguments',
 		'famixTStructuralEntity',
 		'fastArrayVariable',
-		'famixExternalDeclaration'
+		'famixExternalDeclaration',
+		'famixAccess'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -61,6 +62,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	famixStatementFunction := self remoteEntity: #StatementFunction withPrefix: #FamixF77.
 	famixTStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
+	famixAccess := self remoteEntity: #Access withPrefix: #FamixF77.
 
 	fastArrayVariable := self remoteEntity: #ArrayVariable withPrefix: #FASTFortran.
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
@@ -94,6 +96,8 @@ CRFFMetamodelGenerator >> defineRelations [
 	(famixExternalDeclaration property: #fast) - (fastExternalStatement property: #famix).
 
 	"FASTTWithArguments regroup both calls: CallStatement and FunctionCall"
-	(famixInvocation property: #fast) - (fastTWithArguments property: #famix)
+	(famixInvocation property: #fast) - (fastTWithArguments property: #famix).
+	(famixAccess property: #fast) - (fastAssignment property: #famix)
+
 
 ]
