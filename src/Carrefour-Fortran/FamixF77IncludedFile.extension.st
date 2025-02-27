@@ -11,12 +11,9 @@ FamixF77IncludedFile >> bindFastModel: fastModel [
 
 { #category : '*Carrefour-Fortran' }
 FamixF77IncludedFile >> importFASTModel [
-	| fortranCode tempModel |
+	| fortranCode tempModel includedFile fakeSubrtn |
 
-	self flag: '#FIXME: Do we need to ask for fast model in case of includedFile?'.
 	self assert: self sourceAnchor isNotNil.
-
-"	sourceAnchor endLine: sourceAnchor endLine + 1."
 
 	fortranCode := String streamContents:  [  :aStream | 
 		FortranProjectImporter new 
@@ -24,11 +21,19 @@ FamixF77IncludedFile >> importFASTModel [
 			from: self sourceAnchor sourceText
 			on: aStream
 	].
-	
+
 	tempModel := self mooseModel fastImporter onSourceString: fortranCode.
 
-	"We do not want a fake subroutine in the model, it is just for convenience for the parser to do its job."
-	tempModel remove: (tempModel allWithType: FASTFortranSubroutine) first.
+	fakeSubrtn := (tempModel allWithType: FASTFortranSubroutine) first.
+	includedFile := tempModel newIncludedFile.
+
+	fakeSubrtn statementBlock statements copy do: [ :stmt | includedFile  addStatement: stmt ].
+	fakeSubrtn declarations copy do: [ :decl | includedFile addDeclaration: decl ].
+
+	fakeSubrtn statementBlock: nil.
+	fakeSubrtn programFile: nil.
+
+	tempModel remove: fakeSubrtn.
 
 	^tempModel
 ]
