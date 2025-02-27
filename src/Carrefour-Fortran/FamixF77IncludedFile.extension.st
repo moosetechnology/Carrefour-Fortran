@@ -11,7 +11,7 @@ FamixF77IncludedFile >> bindFastModel: fastModel [
 
 { #category : '*Carrefour-Fortran' }
 FamixF77IncludedFile >> importFASTModel [
-	| fortranCode tempModel includedFile fakeSubrtn |
+	| fortranCode tempModel |
 
 	self assert: self sourceAnchor isNotNil.
 
@@ -24,16 +24,7 @@ FamixF77IncludedFile >> importFASTModel [
 
 	tempModel := self mooseModel fastImporter onSourceString: fortranCode.
 
-	fakeSubrtn := (tempModel allWithType: FASTFortranSubroutine) first.
-	includedFile := tempModel newIncludedFile.
-
-	fakeSubrtn statementBlock statements copy do: [ :stmt | includedFile  addStatement: stmt ].
-	fakeSubrtn declarations copy do: [ :decl | includedFile addDeclaration: decl ].
-
-	fakeSubrtn statementBlock: nil.
-	fakeSubrtn programFile: nil.
-
-	tempModel remove: fakeSubrtn.
+	tempModel cleanupFakeIncludeSubroutine.
 
 	^tempModel
 ]
