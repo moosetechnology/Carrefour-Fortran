@@ -16,7 +16,7 @@ CRFFAbstractBindTest >> createFASTModel: jsonSource fromFortranSource: fortranCo
 	visitor := self jsonImporterClass new.
 	visitor initLineSizes: fortranCode.
 	visitor visitProgramFile: (NeoJSONReader fromString: jsonSource).
-	fastModel := visitor model
+	fastModel := visitor model.
 ]
 
 { #category : 'running' }
