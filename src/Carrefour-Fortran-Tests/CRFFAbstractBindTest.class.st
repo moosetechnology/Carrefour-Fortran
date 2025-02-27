@@ -59,4 +59,5 @@ CRFFAbstractBindTest >> setUp [
 	super setUp.
 
 	famixModel := self newFamixModel.
+	famixModel rootFolder: '.'
 ]
