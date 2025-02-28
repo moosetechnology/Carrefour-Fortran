@@ -19,6 +19,7 @@ FASTFortranModel >> cleanupFakeIncludeSubroutine [
 	fakeSubrtn := (self allWithType: FASTFortranSubroutine) first.
 	includedFile := self newIncludedFile.
 
+	includedFile name: fakeSubrtn name.
 	includedFile statementBlock: fakeSubrtn statementBlock.
 	fakeSubrtn declarations copy do: [ :decl | includedFile addDeclaration: decl ].
 
