@@ -11,7 +11,7 @@ FamixF77IncludedFile >> bindFastModel: fastModel [
 
 { #category : '*Carrefour-Fortran' }
 FamixF77IncludedFile >> importFASTModel [
-	| fortranCode tempModel |
+	| fortranCode tempFastModel |
 
 	self assert: self sourceAnchor isNotNil.
 
@@ -22,11 +22,11 @@ FamixF77IncludedFile >> importFASTModel [
 			on: aStream
 	].
 
-	tempModel := self mooseModel fastImporter onSourceString: fortranCode.
+	tempFastModel := self mooseModel fastImporter onSourceString: fortranCode.
 
-	tempModel cleanupFakeIncludeSubroutine.
+	tempFastModel cleanupFakeIncludeSubroutine.
 
-	^tempModel
+	^tempFastModel
 ]
 
 { #category : '*Carrefour-Fortran' }
