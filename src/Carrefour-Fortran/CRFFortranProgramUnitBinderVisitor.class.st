@@ -266,6 +266,18 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranIfBlockStatement: aFASTFor
 		:elseBlock | elseBlock accept: self ]
 ]
 
+{ #category : 'visiting - programUnits' }
+CRFFortranProgramUnitBinderVisitor >> visitFASTFortranIncludedFile: aFASTFortranIncludedFile [
+
+	| famix |
+	famix := self childrenEntities: FamixF77IncludedFile named: aFASTFortranIncludedFile name.
+
+	self assert: famix size = 1.
+	famix anyOne fast: aFASTFortranIncludedFile.
+
+	super visitFASTFortranIncludedFile: aFASTFortranIncludedFile
+]
+
 { #category : 'visiting - statements' }
 CRFFortranProgramUnitBinderVisitor >> visitFASTFortranInquireStatement: aFASTFortranInquireStatement [
 
