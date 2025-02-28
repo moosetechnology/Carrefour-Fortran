@@ -20,7 +20,9 @@ Class {
 		'famixTStructuralEntity',
 		'fastArrayVariable',
 		'famixExternalDeclaration',
-		'famixAccess'
+		'famixAccess',
+		'famixIncludedFile',
+		'fastIncludedFile'
 	],
 	#category : 'Carrefour-Fortran-Model-Generator',
 	#package : 'Carrefour-Fortran-Model-Generator'
@@ -63,6 +65,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	famixTStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #Famix.
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixF77.
 	famixAccess := self remoteEntity: #Access withPrefix: #FamixF77.
+	famixIncludedFile := self remoteEntity: #IncludedFile withPrefix: #FamixF77.
 
 	fastArrayVariable := self remoteEntity: #ArrayVariable withPrefix: #FASTFortran.
 	fastAssignment := self remoteEntity: #AssignmentStatement withPrefix: #FASTFortran.
@@ -73,6 +76,7 @@ CRFFMetamodelGenerator >> defineClasses [
 	fastScalarVariable := self remoteEntity: #ScalarVariable withPrefix: #FASTFortran.
 	fastStatementFunction := self remoteEntity: #FunctionStatement withPrefix: #FASTFortran.
 	fastVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTFortran.
+	fastIncludedFile := self remoteEntity: #IncludedFile withPrefix: #FASTFortran.
 
 	fastTWithArguments := self remoteTrait: #TWithArguments withPrefix: #FAST.
 ]
@@ -82,7 +86,7 @@ CRFFMetamodelGenerator >> defineRelations [
 	super defineRelations.
 
 	(famixProgramUnit property: #fast) - (fastProgramUnit property: #famix).
-	
+
 	(famixProgramFile property: #fast) - (fastProgramFile property: #famix).
 
 	(famixTStructuralEntity property: #fastDeclaration) - (fastVariableDeclarator property: #famixDeclaration).
@@ -97,7 +101,8 @@ CRFFMetamodelGenerator >> defineRelations [
 
 	"FASTTWithArguments regroup both calls: CallStatement and FunctionCall"
 	(famixInvocation property: #fast) - (fastTWithArguments property: #famix).
-	(famixAccess property: #fast) - (fastAssignment property: #famix)
+	(famixAccess property: #fast) - (fastAssignment property: #famix).
 
+	(famixIncludedFile property: #fast) - (fastIncludedFile property: #famix).
 
 ]
