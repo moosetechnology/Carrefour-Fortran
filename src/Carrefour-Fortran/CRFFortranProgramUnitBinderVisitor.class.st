@@ -142,7 +142,7 @@ CRFFortranProgramUnitBinderVisitor >> visitFASTFortranDoStatement: aFASTFortranD
 	"visitFASTFortranTStatement: would do the same as the other 2 lines:
 	self visitFASTFortranTStatement: aFASTFortranDoStatement."
 	aFASTFortranDoStatement loopControl accept: self.
-	aFASTFortranDoStatement statementBlock accept: self
+	aFASTFortranDoStatement body accept: self
 ]
 
 { #category : 'visiting - statements' }
