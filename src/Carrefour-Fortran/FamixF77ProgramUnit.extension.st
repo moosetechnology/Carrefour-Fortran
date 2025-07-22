@@ -16,8 +16,10 @@ FamixF77ProgramUnit >> bindFASTModel [
 
 { #category : '*Carrefour-Fortran' }
 FamixF77ProgramUnit >> bindFastModel: fastModel [
+
 	fastModel carrefourBinderVisitor
-		bindFastModel: fastModel toFamixEntity: self
+		bindFastModel: fastModel
+		toFamixEntity: self
 ]
 
 { #category : '*Carrefour-Fortran' }

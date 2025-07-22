@@ -24,7 +24,7 @@ CRFFortranProgramUnitBinderVisitor >> childrenEntities: aFamixClass named: aName
 	"note that famixEntity's 'children' include the famixEntity itself"
 
 	^(famixEntity allToScope: aFamixClass)
-		select: [ :each | each name asLowercase = aName asLowercase ]
+		select: [ :each | each name sameAs: aName ]
 ]
 
 { #category : 'search famix' }
@@ -43,11 +43,11 @@ CRFFortranProgramUnitBinderVisitor >> childrenStructuralEntitiesNamed: aName [
 	- or it can be a localVariable from includedFile
 	"
 	((famixEntity allLocalVariables)
-		select: [ :localVariable | localVariable name asLowercase = aName asLowercase ]
+		select: [ :localVariable | localVariable name sameAs: aName ]
 	) ifNotEmpty: [ :entities | ^entities ].
 		
 	((famixEntity allTypes)
-		select: [ :type | type name asLowercase = aName asLowercase ]
+		select: [ :type | type name sameAs: aName ]
 	) ifNotEmpty: [ :entities | ^entities ].
 	
 	^ #()
