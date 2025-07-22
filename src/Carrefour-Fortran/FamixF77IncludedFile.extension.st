@@ -1,15 +1,6 @@
 Extension { #name : 'FamixF77IncludedFile' }
 
 { #category : '*Carrefour-Fortran' }
-FamixF77IncludedFile >> bindFastModel: fastModel [
-
-	self flag: '#FIXME: how to deal with includedFile ? '.
-	fastModel carrefourBinderVisitor 
-		bindFastModel: fastModel
-		toFamixEntity: self
-]
-
-{ #category : '*Carrefour-Fortran' }
 FamixF77IncludedFile >> importFASTModel [
 	| fortranCode tempFastModel |
 
