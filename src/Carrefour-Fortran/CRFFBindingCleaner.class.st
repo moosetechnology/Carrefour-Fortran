@@ -6,6 +6,12 @@ Class {
 }
 
 { #category : 'visiting' }
+CRFFBindingCleaner class >> cleanModel: fastModel [
+
+	^self new cleanModel: fastModel
+]
+
+{ #category : 'visiting' }
 CRFFBindingCleaner >> cleanModel: fastModel [
 	"as advertized: tries its best to remove all pointers to any FASTEntity in fastModel to allow
 	 garbage collecting the memory used"
