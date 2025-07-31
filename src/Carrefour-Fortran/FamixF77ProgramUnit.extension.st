@@ -3,6 +3,8 @@ Extension { #name : 'FamixF77ProgramUnit' }
 { #category : '*Carrefour-Fortran' }
 FamixF77ProgramUnit >> bindFASTModel [
 	| fastModel |
+	self fast ifNotNil: [ :alreadyComputed | ^alreadyComputed ].
+
 	self assert: self sourceAnchor isNotNil.
 
 	fastModel := self importFASTModel
