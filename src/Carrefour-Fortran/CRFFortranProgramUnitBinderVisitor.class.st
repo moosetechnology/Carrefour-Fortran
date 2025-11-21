@@ -23,7 +23,7 @@ CRFFortranProgramUnitBinderVisitor >> bindFastModel: fastModel toFamixEntity: aF
 CRFFortranProgramUnitBinderVisitor >> childrenEntities: aFamixClass named: aName [
 	"note that famixEntity's 'children' include the famixEntity itself"
 
-	^(famixEntity allToScope: aFamixClass)
+	^(famixEntity allContainedEntitiesOfType: aFamixClass) 
 		select: [ :each | each name sameAs: aName ]
 ]
 
@@ -75,7 +75,7 @@ CRFFortranProgramUnitBinderVisitor >> famixEntity: anObject [
 CRFFortranProgramUnitBinderVisitor >> rootEntitiesIn: fastModel [
 
 	^(fastModel allWithSubTypesOf: FASTFortranProgramUnit)
-		select: [ :entity | entity parents isEmpty ]
+		select: [ :entity | entity containers isEmpty ]
 ]
 
 { #category : 'visiting' }
