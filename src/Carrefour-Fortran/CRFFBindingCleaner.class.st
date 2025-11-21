@@ -27,9 +27,8 @@ CRFFBindingCleaner >> cleanModel: fastModel [
 { #category : 'search famix' }
 CRFFBindingCleaner >> rootEntitiesIn: aFASTFortranModel [
 
-	^aFASTFortranModel entities select: [ :entity |
-		entity parents isEmpty
-	]
+	^aFASTFortranModel entities
+		select: [ :entity | entity containers isEmpty ]
 ]
 
 { #category : 'visiting - statements' }
